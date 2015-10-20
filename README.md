@@ -1,2 +1,3 @@
 # ing1
-Repo para los tps de Ingeniería de Software I
+Repositorio para los trabajos practicos de la materia Ingeniería de Software I.
+UBA (FCEyN)

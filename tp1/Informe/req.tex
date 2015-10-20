@@ -1,0 +1,81 @@
+\section{O-refinamientos}
+
+En los diagramas presentados anteriormente se pueden ver distintos o-refinamientos (marcados cada uno con distintos colores de manera de poder ser distinguidos). A continuación haremos enfásis en cada uno de ellos compar\'andolos con la idea central presentada en el diagrama de objetivos. Para lograr una comparación interesante, utilizaremos tres criterios (es decir, objetivos blandos): transparencia, costo y rapidez.
+
+\subsection{O-refinamiento 1: Claves de env\'io sin encriptación}
+
+Este O-refinamiento es muy simple, no utiliza un sistema de certificados para el env\'io de los resultados del conteo de cada escuela.
+
+Si bien esto lo hace más rapido al no ser necesario desencriptar mensajes y más barato, al no necesitar conseguir certificaciones de seguridad, la transparencia es menor. Cualquier persona que intercepte el mensaje puede obtener la contraseña y por lo tanto cambiar los resultados del 
+conteo parcial. Si bien esto no influye en el conteo final que se realiza luego, cambia los resultados parciales eliminando mucha transparencia.
+
+Presentamos una tabla comparativa de las dos maneras de lograr el env\'io de claves en función de los objetivos blandos presentados anteriormente:
+
+\begin{table}[H]
+\centering
+ \begin{tabular}{|c | c | c | c|} 
+ \hline
+ & Rapidez & Tranparencia & Costo \\
+ \hline
+ método sin certificación & ++ & -  & -- \\
+ \hline
+ método con certificación & - & ++ & + \\
+ \hline
+ 
+ \end{tabular}
+\end{table}
+
+\subsection{O-refinamiento 2: Auntentificación automática del votante}
+
+La idea detrás de este O-refinamiento es asignar a la máquina la tarea de identificar al votante, dejando como única tarea para el presidente de mesa revisar y entregar boletas.
+
+Entonces el proceso de votación cambiar\'ia, como está indicado en 1.2 del diagrama de objetivos bajo el tag \textbf{automático}.
+
+La idea es la siguiente, existe una urna por maquina, pero cualquier persona puede votar en cualquier m\'aquina. Cuando una persona llega, elige una m\'aquina y se sitúa en la cola de la misma. Cuando es su turno, el presidente de mesa se queda con un troquel, y le da la boleta.
+
+El votante va a la m\'aquina, pasa su dni, por una ranura especial y el sistema lo identifica como votante válido. Si la maquina no lo reconoce como votante válido o aparece que el votante ya votó, emite una señal sonora para que el presidente de mesa llame al fiscal general y analice la irregularidad. Si lo reconoce, el votante inserta la boleta y vota normalmente.
+
+Una vez que votó, quita el segundo troquel, el presidente lo verifica, e inserta la boleta en la urna. Una vez que se imprimió el voto, la maquina se comunica mediante wifi con todas las otras máquinas de la escuela para avisar que esa persona ya votó. De manera de evitar que la misma persona vote más de una vez.
+
+Si el votante se arrepiente de su voto después de imprimir la boleta, pero antes de insertarla en la urna, el presidente de mesa tiene que acceder a cualquiera de las máquinas y hacer que la persona en cuestión aparezca como que todavía no voto.
+
+Los fiscales deben verificar que todo sea legal, para que el presidente de mesa no se aproveche de esta función y haga fraude.
+
+Si bien este método es más r\'apido, tiende a tener mayores irregularidades, el presidente de mesa podría cambiar votos de manera muy simple. 
+
+\begin{table}[H]
+\centering
+ \begin{tabular}{|c | c | c | c|} 
+ \hline
+ & Rapidez & Tranparencia & Costo \\
+ \hline
+ método clasico & + & ++  & -- \\
+ \hline
+ método automático & ++ & -- & ++ \\
+ \hline
+ 
+ \end{tabular}
+\end{table}
+
+
+\subsection{O-refinamiento 3: recibir datos por fax}
+
+La idea de este o-refinamiento es que en vez de enviar una mensaje codificado por el enlace telefonico, utilizar el mismo para enviar un fax. De esta manera en alguna locación definida, personal del ministerio recibe el fax, verifica que no contenga irregularidades y lo carga en un sistema interno que lleva el conteo de los datos.
+
+El gran problema de esto es la velocidad en que sucede, ya que al requerir que un humano verifique el contenido de cada fax esto lleva tiempo. Además subir los datos al sistema depende de un humano y esto puede implicar que cambie los resultados.
+
+Comparemoslo entonces con el método automatizado de que la maquina procese directamente el mensaje enviado por el enlace telefonico.
+
+\begin{table}[H]
+\centering
+ \begin{tabular}{|c | c | c | c|} 
+ \hline
+ & Rapidez & Tranparencia & Costo \\
+ \hline
+ método automático & ++ & ++  & ++ \\
+ \hline
+ método manual & -- & -- & -- \\
+ \hline
+ 
+ \end{tabular}
+\end{table}
