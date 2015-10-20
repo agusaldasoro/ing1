@@ -1,3 +1,91 @@
 \section{Introducci\'on}
-- Introducción: acá debería figurar todo lo necesario como para que un lector no iniciado en el tema entienda el propósito general del sistema que van a describir. Puede citar algunos fragmentos del enunciado si lo consideran necesario, pero NO DEBE SER una copia del
-enunciado.
+
+En el presente trabajo se aborda la tem\'atica del \emph{proceso electoral}. El cual dividimos en tres etapas: \textit{Preparaci\'on, Sufragio y Conteo}.\\
+
+
+\subsection{Preparación}
+
+En la etapa de preparación, el Ministerio provee un listado con los datos personales de todo el padrón, y lo carga en el sistema, permitiendo así la exposición de los datos a través de la interfaz web. De esta manera, un elector podrá consultar el padrón, y de no figurar en él, se dirigirá al ministerio, donde el sistema le permitirá al ministerio ingresar nuevos votantes  (hasta determinada fecha límite) asignándoles una mesa válida. 
+
+A su vez, electores, fiscales generales y partidos políticos, podrán revisar el código fuente, el cual fue subido a la interfaz web, para ver que no haya ninguna irregularidad en el mismo.\\
+
+Pasada dicha fecha, el ministerio suministra la información sobre las escuelas disponibles para votar al sistema, y procede a activar la opción “Asignar escuela y mesa” a cada elector, donde el sistema realiza dicha asignación automáticamente. A su vez, asigna de manera aleatoria los presidentes de mesas, ponderando a los que nunca lo fueron previamente.\\
+
+Dado que el ministerio precisa conocer a los presidentes de mesa designados, el sistema permite consultar quienes son los mismos, de manera que el Ministerio pueda comunicarse con ellos. En caso de que algún notificado no pudiera estar presente (con justificación válida), el sistema permitirá al Ministerio elegir uno nuevo. Quedará a cargo del Ministerio, la capacitación de los mismos.\\
+
+Posteriormente, los partidos políticos presentan sus candidatos al Ministerio (hasta determinada fecha límite). Pasada la misma, el Ministerio carga esta información en la versión Web para que esté disponible a consultar y el equipo técnico del mismo graba la información en las máquinas impresoras de voto. En este momento, también, asigna una máquina impresora de voto a cada mesa, más dos extra por escuela (en caso de que suceda algún exabrupto), sumado a una máquina extra (que sólo será utilizada para el envío del conteo de votos) y un cable de conexión de teléfono. Cada máquina posee una batería que dura 3 hs sin estar conectada a alimentación eléctrica. 
+
+El sistema proveerá una contraseña única para todas las máquinas, la cual permite acceder al “Modo envío”, y adem\'as una contraseña única por cada Fiscal General de escuela, quienes ser\'an utilizadas en el momento de cargar los resultados de la elección, lo que permitir\'a el env\'io de datos encriptados mediante RSA.\\
+
+Luego, se prepara un lote de boletas para cada mesa, considerando entre ellas a la boleta donde se imprimirán los resultados. Por cada mesa, se asignan además una cantidad extra de boletas, en caso de que algún votante termine utilizando más de una (dado que se puede arrepentir antes de efectuar su voto). Las boletas tienen dos troqueles iguales, los cuales permiten identificar que la misma no fue intercambiada por el votante al momento de realizar la elección, evitando así este tipo de fraude. Las mismas tienen un espacio para impresión con tinta, y un chip grabable dentro.\\
+
+Después, el Ministerio imprime copias del padrón correspondiente a cada mesa, para que sean utilizados por los presidentes de mesa, fiscales y las escuelas, estas mismas lo deberán dejar en un lugar visible para que los votantes puedan consultarlo. También prepara las urnas, armando tantas como cantidad de mesas haya, las cuales poseen una identificación de la mesa a la que pertenecen; y provee auriculares para cada escuela, que recibirán los encargados de las mismas, los cuales brindarán a los votantes no videntes una ayuda a la hora del sufragio. 
+
+Es el ministerio también el encargado de entregarle a cada Fiscal General las dos contraseñas, y un pendrive. La funcionalidad de este \'ultimo consistir\'a en que el fiscal lo inserte dentro de la m\'aquina de sufragio; luego el software dentro de \'el calcula el hash del programa dentro de la m\'aquina e informa si coincide con el hash original, el cual tiene almacenado.
+
+Estando todo preparado, el Ministerio notifica a las fuerzas de seguridad qu\'e escuelas son las seleccionadas para la elección donde deberán brindar aporte.\\
+
+Llegado el dia de la elección, el correo lleva a cada escuela correspondiente, la cantidad de máquinas de voto asignadas junto a las máquinas extra, todas con sus baterías correspondientes. Además, lleva las boletas, las urnas, las copias del padrón y los auriculares. Todo esto es recibido por el encargado, quien se los otorgará a los presidente de mesa y fiscales. Una vez allí, el fiscal general junto a los presidentes de mesa que ya estén presentes y las fuerzas de seguridad, distribuyen una mesa por aula. A su vez, se posicionan las urnas, las boletas y las máquinas de votación en su lugar correspondiente. Los auriculares permanecerán en posesión del Fiscal General, quien será el encargado de otorgarlo de ser necesario.\\
+
+Cada presidente de mesa se ubica en su mesa respectiva. Si llega un votante a una mesa, y esta no cuenta con un presidente de mesa, el fiscal general de la escuela lo nombrará como presidente de dicha mesa. Cada presidente de mesa da inicio a la votación. Lo hace al activar una opción en la máquina de votación. El presidente de mesa es quien emitirá su voto primero acorde a lo explicado posteriormente.
+
+A partir de ese momento, cualquier votante habilitado que llegue a su mesa podrá emitir sufragio.\\
+
+
+\subsection{Sufragio}
+
+
+Llega un votante a la mesa. En caso de tener alguna discapacidad, tiene prioridad en la cola. 
+
+Si el votante lo necesitase, podrá requerir ayuda y/o auriculares al presidente de mesa quien se deberá contactar con el Fiscal General con el fin de conseguir los auriculares. Para personas que posean problemas de movilidad, se les permitirá imprimir su voto en máquinas ubicadas en planta baja, mientras que el presidente de mesa les acercará la urna, para que pueda depositar su boleta al finalizar el sufragio. Sólo usará la máquina impresora de voto de la misma, mientras que es responsabilidad del presidente de mesa acercar la urna para que su voto sea contabilizado en la mesa que le corresponde por el padrón.
+
+En el caso de que no posea una discapacidad, espera en la cola de votación de la mesa. 
+En ambos casos, cuando es su turno, el votante le entrega su DNI al presidente de mesa. Este verifica su identidad al asegurarse que la persona que le entregó el DNI es la poseedora del mismo, que se encuentra en el padrón correspondiente a la mesa, y que no votó todavía. Los fiscales de mesa hacen lo mismo. Si hay algún problema, el presidente de mesa y/o los fiscales notifican al fiscal general de la escuela. El mismo decidirá si la persona está apta para emitir voto o no.\\
+
+Si el votante pasa la verificación, el presidente de mesa procede a entregarle la boleta y le retiene el DNI. A la boleta entregada, le quita un troquel que posee el código identificatorio, dejándola con el otro código idéntico en la boleta.
+Luego, el votante se acerca la máquina impresora de voto e inserta la boleta.\\
+
+Entonces, el sistema de la máquina muestra por pantalla las opciones de votar: por categoría o votar lista completa. Para ambos casos, se presentan las opciones (se incluye también la de voto en blanco) en posiciones aleatorias en la pantalla.
+
+El votante podrá entonces elegir entre las opciones y al finalizar, obtener la boleta con su voto impreso (tanto en el papel como en el chip). El votante puede verificar en la máquina que lo impreso en el chip sea correcto.\\
+
+Luego, el votante quita el troquel restante a la boleta, se lo entrega al presidente de mesa y si coincide con el retirado previamente, puede pasar a depositar la boleta en la urna siempre y cuando no haya cantado cuál será su voto. Si el votante canta su voto, la boleta quedará anulada impidiéndole ingresarla en la urna. 
+
+Si el votante se arrepiente, puede pedir otra boleta y repetir el proceso.
+Finalmente, el presidente de mesa le hace firmar al votante el padrón, y le devuelve el DNI conjunto a la constancia de voto.\\
+
+En el caso de que falle alguna máquina, se pueden reemplazar por las dos de repuesto que posee cada escuela las cuales estarán a cargo del fiscal general. Si en una escuela dejan de funcionar más de dos máquinas, se podrá compartir la maquina de sufragio entre mesas, pero cada boleta deberá ser depositada en la urna correspondiente.\\
+
+El fiscal general puede, en todo momento, utilizar el pendrive suministrado por el Ministerio, para chequear que el código que se ejecuta en cada máquina, es el correcto (acorde a lo explicado en la secci\'on anterior).\\
+
+Pasadas las 18hs, las fuerzas de seguridad cierran las puertas de las escuelas. Y una vez terminados los comicios, empieza el conteo.\\
+
+\subsection{Conteo}
+
+
+El presidente de mesa abre la urna y pone a la máquina impresora de voto en “Modo de conteo”, dando así comienzo al conteo de cada voto. \\
+
+Dado el caso en que no haya nada impreso en una boleta, o haya algo escrito a mano, se impugna el voto.
+
+Si la boleta no fue altera, se inserta en la m\'aquina impresora de voto. Cuando la máquina lee el chip, lleva la cuenta de los votos procesados. Al pasar la boleta por la máquina, figura en la pantalla el voto grabado. 
+
+Es responsabilidad tanto del presidente de mesa, como de los fiscales, corroborar que por cada boleta, el voto que se muestre en pantalla (obtenido por el lector del chip) coincida con lo impreso en la misma.\\
+
+En caso de que ocurra alguna irregularidad, el presidente de mesa y/o fiscales lo comunicarán al fiscal general de la escuela. Frente a esta irregularidad, el fiscal deber\'a ordenar que se recuenten todos los votos, o bien podrá anular la mesa (si lo considera necesario).\\
+
+Al finalizar el conteo, el presidente de mesa insertará una boleta vacía en la máquina impresora de voto, la cual grabará en el chip los votos contabilizados de la mesa. Además imprimirá con tinta en la boleta la cantidad de votos para cada categoría y así obtener una manera de contrastar lo grabado con lo contabilizado.
+
+Luego, el presidente de mesa llevará la boleta con el conteo al Fiscal general, quien será el encargado de cargarla en la máquina de impresión de votos con conexión telefónica destinada al envío de resultados. El mismo posee dos contraseñas; al ingresar la primera, la máquina impresora de votos le permitirá ingresar al “Modo envío”. Una vez cargadas todas las boletas, las envía por el enlace telefónico al centro de cómputos nacional, esto lo hace bajo la incriptaci\'on RSA. El presidente de mesa podrá acompañarlo en todo momento para ver que se contabilice lo correcto.\\
+
+El fiscal general puede, en todo momento, utilizar el pendrive suministrado por el Ministerio, para chequear que el código que se ejecuta en cada máquina, es el correcto.\\
+
+Posteriormente, el presidente de mesa inserta la boleta con el conteo impreso en la urna junto a todas las boletas contabilizadas de la mesa. El presidente sella la urna, el fiscal general la agrupa con las otras que hay en escuela, y brinda al correo todas las urnas de su escuela e identifica a las urnas que hayan sido impugnadas. Además, envía el padrón para poder identificar a quienes votaron. El correo se encarga de enviarlas al centro de cómputos nacional.\\
+
+El Sistema del Centro de Cómputos sólo contabilizará resultados de mesas que hayan sido cargados con contraseñas de Fiscal General válidas y correspondientes a las mesas de las urnas recibidas.
+El Centro de Cómputos nacional calcula los resultados provisorios de las elecciones (como si hay ballotage, o la cantidad de diputados mediante el método D’Hont) con la información recibida por el enlace telefónico.
+
+A las 20hs el Centro de Cómputos nacional publica los resultados del conteo provisorio en su página web.\\
+
+Finalmente, el correo llevará todas las urnas al centro de cómputos nacional donde se realizará el conteo definitivo (No es posible saber a priori cuándo ocurrirá esto).
+
+
