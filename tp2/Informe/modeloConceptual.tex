@@ -1,1 +1,132 @@
 \subsection{Modelo Conceptual}
+
+\subsubsection{OCL}
+
+
+\subsubsection*{Mesa}
+
+\textit{context Mesa}
+\begin{enumerate}
+\item  No hay dos mesas con el mismo fiscal.
+
+$inv: 
+self.Fiscal \rightarrow forall(f1 | Mesa.AllInstances() \rightarrow select(m1 | m1 <> self) \rightarrow forall(m2 | m2.Fiscal \rightarrow forall(f2 | f1 <> f2)))$
+
+\item No hay dos mesas con electores en común.
+
+$self.Electores \rightarrow forAll(e_1 | mesa.AllInstances() \rightarrow forAll(m_1 | m_1 <> self$ implies $m_1.Electores  \rightarrow forAll(e_2 | e_1 <> e_2))$
+
+\item No hay dos mesas con el mismo presidente de mesa.
+
+$mesa.AllInstances \rightarrow forAll(m_1, m_2 | m_1<m_2> \Rightarrow m_1.presidente <> m_2.presidente)$
+
+\item Los presidentes de mesa votan en la misma mesa que son presidentes.
+
+$mesa.Presidentes  \rightarrow forAll(p | self.Electores  \rightarrow select(v | p.dni == v.dni).size() == 1)$
+
+\item La boleta con conteo realmente tiene la información de las boletas de la urna (o sea la suma de los candidatos que hayan votado).
+
+$self.BoletaConConteo.Votos == CONCAT(self.Urna.Contiene.Voto \rightarrow forAll(b | b.voto)) $
+
+\item Los id de las mesas son únicos.
+
+$Mesa.AllInstances() \rightarrow select(m_1, m_2 | m_1.numero <> m_2.numero)$
+
+\item \#Boletas en Blanco + \#Boletas con voto grabado $>=$ \#Votantes de la mesa
+
+$self.Lote \rightarrow Size() + self.Urna.Contiene \rightarrow Size () \geq self.Electores \rightarrow Size()$
+
+\item \#Boletas con voto grabado $<=$ \#Votantes de la mesa
+
+$self.Urna.Contiene  \rightarrow  Size() \leq self.Electores \rightarrow Size()$
+
+\end{enumerate}
+
+\subsubsection*{Boleta}
+\begin{enumerate}
+\item Los id de las boletas son únicos.
+
+$Boleta.AllInstances() \rightarrow select(b_1, b_2 | b_1.troquel <> b_2.troquel)$
+
+\item Si un elector tiene una boleta en blanco, entonces esta boleta está en la mesa que el elector vota.
+
+\item Si un elector tiene una boleta con voto grabado, entonces esta boleta está en la urna que el elector vot\'o.
+
+
+\end{enumerate}
+
+
+\subsubsection*{Voto}
+\begin{enumerate}
+\item No tiene dos candidatos con la misma postulación.
+\end{enumerate}
+
+\subsubsection*{Urna}
+\begin{enumerate}
+\item Las boletas con voto grabado de la urna son sólo de votantes de la mesa que figura la urna.
+\item En una misma urna no hay dos boletas con el mismo elector.    
+\item Los id de las urnas son únicos.
+\end{enumerate}
+
+\subsubsection*{Escuela}
+\begin{enumerate}
+\item Las mesas de una escuela no están en otra.
+\item Los id de las mesas son únicos.
+\end{enumerate}
+
+\subsubsection*{M\'aquina Impresora de Voto}
+\begin{enumerate}
+\item Los candidatos de todas las máquinas son los mismos.
+\item Si la máquina está en modo votación y en uso es porque algún elector está votando.
+\item Si la máquina está en modo conteo y en uso es porque no hay ningún elector de la mesa votando o esperando para votar.
+\item La máquina de la mesa puede estar en modo votación o conteo pero no en envio.
+\end{enumerate}
+
+\subsubsection*{Elector}
+\begin{enumerate}
+\item Los dni de los     electores son únicos.
+\item El elector puede no tener ninguna boleta, tener una vacía o tener una con voto.     \item Podrá tener hasta una boleta.
+\item No puede haber un elector y una persona que no figura en el padrón con el mismo dni.
+\item La boleta que tiene puede estar en blanco o con voto emitido pero no la boleta del conteo de votos.
+\item Si el elector no llegó, está esperando o no lo dejaron votar no tiene boleta.
+\item Si el elector está votando tiene una boleta en blanco.
+\item Si el elector ya votó tiene una boleta con voto grabado.
+\end{enumerate}
+
+\subsubsection*{Partido Pol\'itico}
+\begin{enumerate}
+\item No hay dos partidos políticos con ningún candidato en común.
+\end{enumerate}
+
+\subsubsection*{Centro de C\'omputos}
+\begin{enumerate}
+\item Hay uno solo.
+\end{enumerate}
+
+\subsubsection*{C\'odigo}
+\begin{enumerate}
+\item El hash del código es el mismo del hash del código fuente.   
+\end{enumerate}  
+
+\subsubsection*{Ministerio}
+\begin{enumerate}
+\item Hay un solo ministerio.
+\end{enumerate}
+
+\subsubsection*{Equipo T\'ecnico}
+\begin{enumerate}
+\item Hay uno sólo.
+\end{enumerate}
+
+\subsubsection*{Presidente de Mesa}
+\begin{enumerate}
+\item Si el presidente de mesa del ministerio está presente, no hay presidente ad hoc.
+\item Si la mesa tiene un solo presidente de mesa, tiene que ser el de Ministerio.
+\item Si hay dos presidentes, el del ministerio debe estar ausente.
+\item Si alguien voto, debe haber votado el presidente mesa antes (El Ad hoc si la mesa tiene dos presidentes, o el del ministerio si tiene uno solo).
+\end{enumerate}
+
+\subsubsection*{Candidato}
+\begin{enumerate}
+\item Los id de los candidatos son únicos.
+\end{enumerate}
