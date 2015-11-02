@@ -51,7 +51,7 @@ Ya presentados el diagrama de contexto y el de clases podemos pasar a analizar p
 %\includegraphics[scale=0.45]{}
 %\captionof{figure}{Diagrama de actividad}
 \end{figure}
-\todo[inline]{Aca va el diagrama de actividad (ojo ocn la escala)}
+\todo[inline]{Aca va el diagrama de actividad (ojo con la escala)}
 
 \subsubsection{Máquina de estado finito}
 
@@ -63,7 +63,7 @@ Para esta sección fu necesario construir 2 máquinas de estado.
 %\captionof{figure}{Máquina de fechas limite}
 \end{figure}
 
-Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los tiempos de los casos de uso presentados anteriormente.
+Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los tiempos de los casos de uso presentados anteriormente. Es importante notar que las transiciones marcadas en esta FSM corresponden a las acciones mostradas en el diagrama de actividad con el mismo nombre.
 
 \begin{figure}[H]
 \centering
@@ -72,7 +72,18 @@ Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los
 \end{figure}
 
 
+
 \subsubsection{Casos de uso}
+
+Veamos primero el diagrama de casos de uso y luego veremos el detalle de los distintos casos de uso.
+
+Es importante notar que el detalle de casos de uso, nos interioriza mucho en mucho de lo mencionado anteriormente en el diagrama de actividad. 
+
+\todo[inline]{Acá va el diagrama de casos de uso}
+
+Al ver el diagrama, se nota algo interesante. Muchos agentes distintos terminan teniendo los mismos casos de uso que el elector. Si bien anteriormente tuvimos que distinguirlos y fue importante hacerlo, por sus interacciones esternas al sistema, cuando interactuan con el sistema son lo mismo que un elector.
+
+Nos muestra también la importancia del diagrama de contexto para identificar agentes que quizas no interactuen con el sistema pero son escenciales a la construcción del mis.
 
 \textbf{Caso de Uso: Autenticandose}
 
@@ -107,6 +118,33 @@ Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los
 \end{table}
 
 
+\textbf{Caso de uso: Cargando padrón}
+\textbf{Actor}: Ministerio
+\textbf{Pre}: El ministerio se encuentra autenticado en el sistema, el padrón no fue cargado, y todavía no pasó la fecha límite para modificaciones al padrón.
+\textbf{Post}: El padrón se encuentra cargado en el sistema y puede ser consultado desde la web.
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+1. El ministerio importa el padrón suministrando un archivo con todos los datos de los ciudadanos capacitados para votar.
+El archivo importado es de formato .csv, con las siguientes columnas: Nombres, Apellidos, DNI, Dirección, Ciudad, Provincia y Sexo. & \\
+\hline
+
+2. El sistema guarda los datos y los publica en la web, para que sean consultados. &
+2.1. Si ocurre un error durante la importación, mostrar mensaje de error e ir al fin del caso de uso. \\
+\hline
+3. Fin de CU. & \\
+
+ \end{tabular}
+
+\end{table}
+
+
+
+
+
 \textbf{Caso de Uso: Ingresando nuevo votante}
 
 \textbf{Actores:} Ministerio
@@ -134,6 +172,51 @@ Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los
  \end{tabular}
 
 \end{table}
+
+\textbf{Caso de uso: Cargando información sobre escuelas}
+
+\textbf{Actor:} Ministerio
+
+\textbf{Pre:} El ministerio se encuentra autenticado en el sistema, y pasó la fecha establecida para la modificación del padrón.
+
+\textbf{Post:} El sistema posee la información de los electores y sus mesas correspondientes, y además designó un presidente de mesa para cada una. Esta información se encuentra consultable en la web.
+
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+1. El ministerio importa la información sobre las escuelas suministrando un archivo con todos los datos de las escuelas. El archivo importado es de formato .csv, con las siguientes columnas: Nombre, Dirección, Ciudad, Provincia y Cantidad de aulas. & \\
+\hline
+
+2. El sistema guarda los datos importados y asigna a los electores a las escuelas más cercanas, asignando una mesa a cada uno. &
+2.1. Si ocurre un error durante la importación, mostrar mensaje de error e ir al fin del caso de uso. \\
+\hline
+3. El sistema aleatoriamente elige un presidente de mesa, priorizando a aquellos que no lo fueron previamente. & \\
+\hline
+
+4. El sistema ofrece la posibilidad de consultar los presidentes de mesa seleccionados. &
+4.1. En caso de ocurrir un error, mostrar mensaje de error e ir a fin del caso de uso. \\
+\hline
+5. Si se elige la opción, se extiende con el CU Consultando presidentes de mesa. & \\
+\hline
+
+6. El sistema publica la información en la web para que pueda ser consultada. & \\
+\hline
+
+7. Fin de CU. & \\
+\hline
+
+ \end{tabular}
+
+\end{table}
+
+
+
+
 
 
 \textbf{Caso de Uso: Consultando presidentes de mesa}
@@ -261,6 +344,180 @@ Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los
 
 \end{table}
 
+
+
+\textbf{Caso de Uso:  Consultando padrón}
+
+\textbf{Actores:} Elector 
+
+\textbf{Pre:} El padrón se encuentra publicado en la web. 
+
+\textbf{Post:}  El elector conoce si se encuentra en el padrón.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+1. El elector ingresa al sistema web público del sistema. & \\
+ \hline
+
+
+
+2. Se busca en el padrón por su DNI. & \\
+ \hline
+
+
+
+3. Si se encuentra, ir a 5. & \\
+ \hline
+
+
+
+4. Si el elector no se encuentra en el padrón, se lo comunica al ministerio, y se extiende con CU Ingresando nuevo votante. & \\
+ \hline
+
+
+
+5. Fin de CU. & \\
+ \hline
+
+
+ \end{tabular}
+
+\end{table}
+
+
+
+
+\textbf{Caso de Uso: Consultando candidatos}
+
+\textbf{Actores:} Elector 
+
+\textbf{Pre:} Los candidatos fueron publicados.
+
+\textbf{Post:}  El elector conoce los candidatos.
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+ 
+1. El elector ingresa al sistema web público del sistema. & \\
+ \hline
+
+
+
+2. El elector visita la sección de candidatos de la web. & \\
+ \hline
+
+
+3. Fin de CU. & \\
+ \hline
+
+
+ \end{tabular}
+
+\end{table}
+
+
+\textbf{Caso de Uso: Consultando código fuente}
+
+\textbf{Actores:} Elector
+
+\textbf{Pre:} El código fuente se encuentra publicado en la web.
+
+\textbf{Post:} El elector ahora conoce el código fuente.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+1. El elector ingresa al sistema web público del sistema. & \\
+ \hline
+
+
+2. El elector navega a la sección del código fuente. & \\
+ \hline
+
+
+3. El elector revisa el código fuente, en busca de posibles errores. & \\
+ \hline
+
+
+4. Si no encuentra errores, ir a 6. & \\
+ \hline
+
+
+5. Si encuentra un error, se extiende con el CU Notificando error en el código fuente. & \\
+ \hline
+
+
+6. Fin de CU. & \\
+ \hline
+
+ \end{tabular}
+
+\end{table}
+
+
+
+Caso de uso: 
+Actor: Elector
+Pre: El código fuente se encuentra publicado en la web, el elector se encuentra en el sistema web y ya consultó el código previamente.
+Post: En el sistema ahora existe una nueva denuncia del código fuente.
+Curso normal
+Curso alternativo
+1. El elector navega a la sección de denuncias del código fuente. 
+
+
+2. El elector llena un formulario, explicando las causas de la denuncia. Luego, elige la opción de “Enviar denuncia”.
+
+
+3. Se valida la información, y se carga en el sistema.
+3.1. Si existe un error en la carga del formulario, se muestra un mensaje de error. Ir al fin del caso de uso.
+4. Fin de CU.
+
+
+\textbf{Caso de Uso: Notificando error en código fuente}
+
+\textbf{Actores:}  Elector
+
+\textbf{Pre:} El código fuente se encuentra publicado en la web, el elector se encuentra en el sistema web y ya consultó el código previamente.
+
+\textbf{Post:} En el sistema ahora existe una nueva denuncia del código fuente.
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+1. El elector navega a la sección de denuncias del código fuente. & \\
+\hline
+
+
+2. El elector llena un formulario, explicando las causas de la denuncia. Luego, elige la opción de “Enviar denuncia”. & \\
+\hline
+
+
+3. Se valida la información, y se carga en el sistema. & 3.1. Si existe un error en la carga del formulario, se muestra un mensaje de error. Ir al fin del caso de uso. \\
+\hline
+4. Fin de CU.& \\
+\hline
+ \end{tabular}
+
+\end{table}
+
+
+
+
+
+
 \subsubsection{OCL}
 
 
@@ -273,7 +530,36 @@ Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los
 
 \subsubsection{Diagrama de actividad}
 
+
+\begin{figure}[H]
+\centering
+%\includegraphics[scale=0.45]{}
+%\captionof{figure}{Diagrama de actividad}
+\end{figure}
+\todo[inline]{Aca va el diagrama de actividad (ojo ocn la escala)}
+
+
 \subsubsection{Casos de uso}
+
+
+\textbf{Caso de Uso: }
+
+\textbf{Actores:} 
+
+\textbf{Pre:} 
+
+\textbf{Post:}
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+ \end{tabular}
+
+\end{table}
+
 
 \subsubsection{OCL}
 
@@ -283,7 +569,33 @@ Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los
 
 \subsubsection{Diagrama de actividad}
 
+\begin{figure}[H]
+\centering
+%\includegraphics[scale=0.45]{}
+%\captionof{figure}{Diagrama de actividad}
+\end{figure}
+\todo[inline]{Aca va el diagrama de actividad (ojo ocn la escala)}
+
 \subsubsection{Casos de uso}
+
+
+\textbf{Caso de Uso: }
+
+\textbf{Actores:} 
+
+\textbf{Pre:} 
+
+\textbf{Post:}
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+ \end{tabular}
+
+\end{table}
 
 
 \subsubsection{OCL}
