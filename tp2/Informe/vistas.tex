@@ -50,6 +50,7 @@ Ya presentados el diagrama de contexto y el de clases podemos pasar a analizar p
 
 \todo[inline]{PONER EN SU LUGAR LOS DIAGRAMAS DE ACTIVIDAD}
 
+\newpage
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{imagenes/actividad/actividadPreparacion1}
@@ -488,24 +489,6 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \end{table}
 
 
-
-Caso de uso: 
-Actor: Elector
-Pre: El código fuente se encuentra publicado en la web, el elector se encuentra en el sistema web y ya consultó el código previamente.
-Post: En el sistema ahora existe una nueva denuncia del código fuente.
-Curso normal
-Curso alternativo
-1. El elector navega a la sección de denuncias del código fuente. 
-
-
-2. El elector llena un formulario, explicando las causas de la denuncia. Luego, elige la opción de “Enviar denuncia”.
-
-
-3. Se valida la información, y se carga en el sistema.
-3.1. Si existe un error en la carga del formulario, se muestra un mensaje de error. Ir al fin del caso de uso.
-4. Fin de CU.
-
-
 \textbf{Caso de Uso: Notificando error en código fuente}
 
 \textbf{Actores:}  Elector
@@ -534,15 +517,6 @@ Curso alternativo
  \end{tabular}
 
 \end{table}
-
-
-
-
-
-
-\subsubsection{OCL}
-
-
 
 
 
@@ -639,7 +613,7 @@ Entonces, en esta sección fue necesaria una interrelación de 3 diagramas para 
 
 \subsection{Conteo}
 
-Llegamos, a la ultima sección. Ya terminada la elección es necesario ver comom contar los votos. Aquí el sistema toma un rol muy importante. A su vez tenemos algunos actores importantescomo el presidente de mesa y los fiscales uqe se entremezclan con el conteo automático.
+Llegamos, a la ultima sección. Ya terminada la elección es necesario ver comom contar los votos. Aquí el sistema toma un rol muy importante. A su vez tenemos algunos actores importantescomo el presidente de mesa y los fiscales que se entremezclan con el conteo automático.
 
 \subsubsection{Diagrama de actividad}
 \todo[inline]{PONER EN SU LUGAR LOS DIAGRAMAS DE ACTIVIDAD}
@@ -654,12 +628,27 @@ Llegamos, a la ultima sección. Ya terminada la elección es necesario ver comom
 \includegraphics[scale=0.5]{imagenes/actividad/actividadConteo2}
 \end{figure}
 
+Aquí vemos como hay dos grandes acciones en esta etapa, por un lado poder auditar la máquina para ver que esta sucediendo, por otro lado el conteo. Una vez más el diagrama de actividad nos permite dar una forma de lo hechos pero no nos permite definar del todo como funciona el conteo ni la auditoria del mismo, para esto usaremos FSM de manera a darla más forma.
 
 \subsubsection{Máquina de estado finito}
 
+\begin{figure}[h!]
+\centering
+%\includegraphics[scale=0.5]{imagenes/actividad/actividadConteo1}
+%\captionof{figure}{Diagrama de actividad}
+\end{figure}			
+
+Este modelo representa el proceso de conteo de una mesa. PAra modelizarlo realmente, es necesario hacer la composición de estos tres modelos. Es importante notar que Finaliza conteo representa todo la etapa de impresión y entrega de los datos mediante modo envio, ya que esto es una acción unica que se ve mucho mejor tanto en casos de uso como el diagrama de actividad no fue tomada en cuenta para este modelo y se comprimio en esa unica etiqueta.
 
 \subsubsection{Casos de uso}
 
+\begin{figure}[h!]
+\centering
+%\includegraphics[scale=0.5]{imagenes/actividad/actividadConteo1}
+%\captionof{figure}{Diagrama de actividad}
+\end{figure}			
+
+A continuación presentaremos los detalles de casos de uso, estos sirven para profundizar el proceso de conteo y de fiscalización.
 
 \textbf{Caso de Uso: }
 
@@ -680,4 +669,266 @@ Llegamos, a la ultima sección. Ya terminada la elección es necesario ver comom
 \end{table}
 
 
-\subsubsection{OCL}
+
+\textbf{Caso de uso: 3.1 - Activando modo conteo}
+
+\textbf{Actor:} Presidente de mesa
+
+\textbf{Pre:} Es el día de las elecciones, y se cerró la mesa del presidente.
+
+\textbf{Post:} La máquina de sufragio se encuentra en modo conteo.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+
+1. El presidente de mesa se acerca a la máquina de sufragio asignada a su mesa junto con la urna y los fiscales. & \\
+\hline
+
+2. El presidente de mesa pone la máquina en modo conteo. & \\
+\hline
+
+3. El sistema carga inicializa una tabla interna donde carga todos los candidatos y les asigna 0 votos. Además, existe una columna para votos impugnados, y otra para votos en blanco. & \\
+\hline
+
+4. El presidente de mesa inserta una boleta vacía, donde se imprimirán los resultados totales de la mesa. El formato se explica más adelante. & \\
+\hline
+
+5. Fin de CU. & \\
+\hline
+
+\end{tabular}
+\end{table}
+
+
+\textbf{Caso de uso: 3.2 - Contando voto}
+
+\textbf{Actor:} Presidente de mesa
+
+\textbf{Pre:} Es el día de las elecciones y la máquina de sufragio se encuentra en modo conteo.
+\textbf{Post:} La máquina de sufragio suma un voto más, algún candidato en cada categoría.
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+
+1. Si el presidente de mesa decidió impugnar el voto, selecciona la opción de impugnar voto. Ir al fin del caso de uso. & \\
+
+\hline
+
+2. Si no se impugnó el voto, se pasa la boleta por el lector de chip. & \\
+
+\hline
+
+
+3. La máquina lee el chip, y suma un voto en la tabla a los candidatos elegidos. & \\
+
+\hline
+
+4. La máquina muestra por pantalla los datos leídos. & \\
+
+\hline
+
+5. Fin de CU. & \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\textbf{Caso de uso: 3.3 - Reiniciando conteo}
+
+\textbf{Actor:} Presidente de mesa
+
+\textbf{Pre:} Es el día de las elecciones y el fiscal general dio la orden de reiniciar el conteo.
+
+\textbf{Post:} El conteo en la máquina de sufragio vuelve a 0.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+
+1. El presidente de mesa activa la opción de reiniciar el conteo. & \\
+\hline
+
+2. Se reinicia la tabla de conteo dentro de la máquina. & \\
+\hline
+
+
+3. Fin de CU. & \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\textbf{Caso de uso: 3.4 - Imprimiendo total de votos}
+
+\textbf{Actor:} Presidente de mesa
+
+\textbf{Pre:} Es el día de las elecciones y se contaron todas las boletas de la urna.
+
+\textbf{Post:} Se imprime en una boleta el total de los votos de la urna.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+
+1. El presidente de mesa elige la opción de imprimir resultados totales. & \\
+\hline
+
+2. La máquina de sufragio imprime el conteo total en la boleta. Los datos se imprimen tanto dentro del chip, como en tinta sobre la boleta. Sobre la boleta, se imprime una tabla que muestra todos los candidatos, y para cada uno la cantidad de votos que recibió. & \\
+\hline
+
+3. Fin de CU. & \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\textbf{Caso de uso: 3.5 - Consultando resultados} 
+
+\textbf{Actor:} Elector
+
+\textbf{Pre:} Los resultados se encuentran publicados en la web.
+
+\textbf{Post:} El elector conoce los resultados provisorios.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+ 
+1. El elector ingresa al sistema web público. & \\
+\hline
+
+
+2. Selecciona la opción de consulta de resultados. Una vez allí, conoce toda la información de los resultados. & \\
+\hline
+
+
+3. Fin de CU. & \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\ŧextbf{Caso de uso: 3.6 - Iniciando modo envío}
+
+\textbf{Actor:} Fiscal general
+
+\textbf{Pre:} Es el día de las elecciones y el fiscal general posee la contraseña para activar el modo envío.
+
+\textbf{Post:} La máquina se encuentra en modo envío.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+1. El fiscal general se acerca a la máquina de sufragio con conexión telefónica y la enciende. & \\
+\hline
+
+2. El fiscal general selecciona la opción de ingresar a modo envío. & \\
+\hline
+
+3. Luego, el sistema le pide la contraseña necesaria y él la ingresa. & \\
+\hline
+
+4. Se muestra mensaje de ingreso correcto. &
+4.1. Si la contraseña no es correcta, se vuelve al paso 3. \\
+\hline
+5. Fin de CU. \\
+
+\end{tabular}
+\end{table}
+
+
+\textbf{Caso de uso: 3.7 - Cargando boleta de mesa}
+
+\textbf{Actor:} Fiscal general
+
+\textbf{Pre:} Es el día de las elecciones una máquina de sufragio se encuentra en modo envío.
+
+\textbf{Post:} La máquina de sufragio suma el resultado de una mesa más.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+1. El fiscal pasa la boleta por el lector de la máquina. Esta suma los resultados al conteo total y muestra en pantalla la información obtenida del chip. & \\
+\hline
+
+2. Si la boleta contada era la última, se extiende con CU 3.9 - Enviando datos al CdC. & \\
+\hline
+
+3. Fin de CU. & \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Caso de uso: 3.8 - Verificando hash mediante pendrive}
+Es el mismo CU explicado en la etapa previa, el 2.1 - Verificando hash mediante pendrive
+
+\textbf{Caso de uso: 3.9 - Enviando datos al CdC}
+
+\textbf{Actor: }Fiscal general
+
+\textbf{Pre:} Es el día de las elecciones y se cargaron todas las boletas de mesa.
+
+Post: Se envió la información total de la escuela al CdC y ahora se encuentra guardada en el sistema.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+1. El fiscal general elige la opción de enviar los resultados al Centro de Cómputos.  & \\
+\hline
+
+2. La máquina le pide que ingrese la contraseña única (la segunda contraseña que el fiscal General posee). & \\
+\hline
+
+3. El fiscal general la ingresa y selecciona “Enviar”. & \\
+\hline
+
+4. La máquina encripta el total de votos con la contraseña ingresada. & \\
+\hline
+
+5. La máquina envía los datos a través del enlace telefónico. & \\
+\hline
+
+6. El sistema en el CdC recibe la información y verifica que la encriptación se haya realizado con una contraseña válida. & \\
+\hline
+
+7. El sistema desencripta la información, y la almacena internamente para luego poder calcular los ganadores. & \\
+
+\hline
+
+8. Fin de CU. & \\
+\hline
+\end{tabular}
+\end{table}
