@@ -80,7 +80,7 @@ Finalmente en este diagramo definimos la acciòn de votar, si bien es algo de la
 
 Para esta sección fu necesario construir 2 máquinas de estado.
 
-\begin{figure}[H]
+\begin{figure}[h!]
 \centering
 %\includegraphics[scale=0.45]{}
 %\captionof{figure}{Máquina de fechas limite}
@@ -88,7 +88,7 @@ Para esta sección fu necesario construir 2 máquinas de estado.
 
 Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los tiempos de los casos de uso presentados anteriormente. Es importante notar que las transiciones marcadas en esta FSM corresponden a las acciones mostradas en el diagrama de actividad con el mismo nombre.
 
-\begin{figure}[H]
+\begin{figure}[h!]
 \centering
 %\includegraphics[scale=0.45]{}
 %\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
@@ -100,15 +100,21 @@ A su vez, nos resultó interesante modelizar la selección aleatoria de presiden
 
 Veamos primero el diagrama de casos de uso y luego veremos el detalle de los distintos casos de uso.
 
+
 Es importante notar que el detalle de casos de uso, nos interioriza mucho en mucho de lo mencionado anteriormente en el diagrama de actividad. 
 
-\todo[inline]{Acá va el diagrama de casos de uso}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/CU/casosdeusopreparacion}
+%\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
+\end{figure}
 
 Al ver el diagrama, se nota algo interesante. Muchos agentes distintos terminan teniendo los mismos casos de uso que el elector. Si bien anteriormente tuvimos que distinguirlos y fue importante hacerlo, por sus interacciones esternas al sistema, cuando interactuan con el sistema son lo mismo que un elector.
 
 Nos muestra también la importancia del diagrama de contexto para identificar agentes que quizas no interactuen con el sistema pero son escenciales a la construcción del mis.
 
-\textbf{Caso de Uso: Autenticandose}
+\textbf{1.1 Caso de Uso: Autenticandose}
 
 \textbf{Actores:} Ministerio
 
@@ -141,7 +147,7 @@ Nos muestra también la importancia del diagrama de contexto para identificar ag
 \end{table}
 
 
-\textbf{Caso de uso: Cargando padrón}
+\textbf{1.2 Caso de uso: Cargando padrón}
 \textbf{Actor}: Ministerio
 \textbf{Pre}: El ministerio se encuentra autenticado en el sistema, el padrón no fue cargado, y todavía no pasó la fecha límite para modificaciones al padrón.
 \textbf{Post}: El padrón se encuentra cargado en el sistema y puede ser consultado desde la web.
@@ -168,7 +174,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 
 
 
-\textbf{Caso de Uso: Ingresando nuevo votante}
+\textbf{1.3 Caso de Uso: Ingresando nuevo votante}
 
 \textbf{Actores:} Ministerio
 
@@ -224,7 +230,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 4. El sistema ofrece la posibilidad de consultar los presidentes de mesa seleccionados. &
 4.1. En caso de ocurrir un error, mostrar mensaje de error e ir a fin del caso de uso. \\
 \hline
-5. Si se elige la opción, se extiende con el CU Consultando presidentes de mesa. & \\
+5. Si se elige la opción, se extiende con el CU\textbf{1.5 Consultando presidentes de mesa}. & \\
 \hline
 
 6. El sistema publica la información en la web para que pueda ser consultada. & \\
@@ -242,7 +248,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 
 
 
-\textbf{Caso de Uso: Consultando presidentes de mesa}
+\textbf{1.5 Caso de Uso: Consultando presidentes de mesa}
 
 \textbf{Actores:} Ministerio 
 
@@ -266,7 +272,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 
 \end{table}
 
-\textbf{Caso de Uso: Asignando nuevo presidente de mesa}
+\textbf{1.6 Caso de Uso: Asignando nuevo presidente de mesa}
 
 \textbf{Actores:} Ministerio 
 
@@ -296,8 +302,92 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 
 \end{table}
 
+\textbf{Caso de uso: 1.7 - Cargando candidatos}
 
-\textbf{Caso de Uso: Consultando notificaciones de error en código fuente}
+\textbf{Actor:} Ministerio
+
+\textbf{Pre:} El ministerio se encuentra autenticado en el sistema, y ya pasó la fecha de presentación de candidatos.
+
+\textbf{Post:} Los candidatos se encuentran cargados en el sistema y son consultables vía web. Además, las máquinas de sufragio tienen cargados los candidatos.
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+1. El ministerio importa los candidatos suministrando un archivo con todos los datos cada uno y su respectivo candidato. & \\
+\hline
+
+2. El sistema guarda los datos y los publica en la web, para que sean consultados. &
+2.1. Si ocurre un error durante la importación, mostrar mensaje de error e ir al fin del caso de uso. \\
+\hline
+3. Luego, el ministerio carga en todas las máquinas de sufragio los candidatos para el día de la elección. & \\
+\hline
+
+4. Fin de CU. & \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Caso de uso: 1.8 - Generando contraseñas}
+
+\textbf{Actor:} Ministerio
+
+\textbf{Pre:} El ministerio se encuentra autenticado en el sistema, y las escuelas se encuentran cargadas.
+
+\textbf{Post:} El ministerio ahora posee una contraseña general para entrar a modo envío y una contraseña para cada fiscal. Además, las máquinas de sufragio tienen cargadas la contraseña para entrar a Modo Envío.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+1. El ministerio selecciona la opción de Generar Contraseñas. & \\
+\hline
+
+2. El sistema genera una contraseña general para que todas las computadoras de sufragio puedan entrar en Modo Envío y una contraseña diferente para cada fiscal. & \\
+\hline
+
+3. Luego, el ministerio carga en todas las máquinas de sufragio la contraseña para entrar en Modo Envío. & \\
+\hline
+
+4. Fin de CU. & \\
+\hline
+
+\end{tabular}
+\end{table}
+\textbf{Caso de uso: 1.9 - Publicando código fuente}
+
+\textbf{Actor:} Ministerio
+
+\textbf{Pre:} El ministerio se encuentra autenticado en el sistema y todavía no es el día de las elecciones.
+
+\textbf{Post:} El código fuente se encuentra cargado en la web para ser consultado. 
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+ 
+1. Selecciona la opción de publicar código fuente. & \\
+\hline
+
+2. El ministerio carga el código fuente. & \\
+\hline
+
+3. El ministerio publica el código fuente. & \\
+\hline
+
+4. Fin de CU. & \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{1.10 Caso de Uso: Consultando notificaciones de error en código fuente}
 
 \textbf{Actores:} Ministerio 
 
@@ -321,7 +411,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \hline
 
 
-3. Si se decide corregir uno de los errores cargados, se extiende con el CU \textbf{Corrigiendo código fuente}. & \\
+3. Si se decide corregir uno de los errores cargados, se extiende con el CU \textbf{1.11 Corrigiendo código fuente}. & \\
 \hline
 
 
@@ -336,8 +426,42 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \end{table}
 
 
+\textbf{Caso de uso: 1.11 - Corrigiendo código fuente}
 
-\textbf{Caso de Uso: Iniciando votación}
+\textbf{Actor:} Ministerio
+
+\textbf{Pre:} El ministerio se encuentra autenticado en el sistema, el código fuente se encuentra publicado, el ministerio recibió un aviso de un error en el código fuente y se encontró una solución.
+\textbf{Post:} El código fuente se actualiza en el sistema, corrigiendo los errores que existían.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+
+
+
+1. El ministerio elige la pestaña de modificación del código fuente. & \\
+\hline
+
+2. El ministerio actualiza el código fuente en el sistema web y publica la actualización. & \\
+\hline
+
+3. El ministerio actualiza el código fuente en todas las máquinas de sufragio. & \\
+\hline
+
+
+4. El ministerio marca en el sistema que la notificación del error solucionado fue resuelta. & \\
+\hline
+
+5. Fin de CU. & \\
+\hline
+
+\end{tabular}
+\end{table}
+
+\textbf{1.12 Caso de Uso: Iniciando votación}
 
 \textbf{Actores:} Presidente de mesa
 
@@ -356,7 +480,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \hline
 2. El presidente de mesa prende la máquina de sufragio y activa el modo votación. & \\
 \hline
-3. El presidente de mesa vota de acuerdo a lo explicado en el CU Votando del Elector. & \\
+3. El presidente de mesa vota de acuerdo a lo explicado en el CU \textbf{2.12 Votando} del Elector. & \\
 \hline
 4. Fin de CU.& \\
 \hline
@@ -368,8 +492,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \end{table}
 
 
-
-\textbf{Caso de Uso:  Consultando padrón}
+\textbf{1.13Caso de Uso:  Consultando padrón}
 
 \textbf{Actores:} Elector 
 
@@ -413,7 +536,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \end{table}
 
 
-
+	
 
 \textbf{Caso de Uso: Consultando candidatos}
 
@@ -447,7 +570,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \end{table}
 
 
-\textbf{Caso de Uso: Consultando código fuente}
+\textbf{1.15 Caso de Uso: Consultando código fuente}
 
 \textbf{Actores:} Elector
 
@@ -477,7 +600,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
  \hline
 
 
-5. Si encuentra un error, se extiende con el CU Notificando error en el código fuente. & \\
+5. Si encuentra un error, se extiende con el CU \textbf{1.16 Notificando error en el código fuente}. & \\
  \hline
 
 
@@ -489,7 +612,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \end{table}
 
 
-\textbf{Caso de Uso: Notificando error en código fuente}
+\textbf{1.16 Caso de Uso: Notificando error en código fuente}
 
 \textbf{Actores:}  Elector
 
@@ -582,7 +705,11 @@ Esta FSM modela:
 
 Veamos el diagram de casos de uso:
 
-\todo[inline]{ACA VA DIAGRAMA DE CASOS DE USO}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/CU/casosdeusosufragio}
+%\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
+\end{figure}
 
 
 Vemos que los casos de uso para esta etapa son pocos, no hay una interacción muy grande con el sistema a nivel de 1 agente. Pero es importante notar que como vimos anteriormente son casos de uso que haran TODOS los electores, por lo tanto se usaran en grandes cantidades el caso de uso \textbf{votando}, que como vimos es una instancia compleja.
@@ -590,26 +717,105 @@ Vemos que los casos de uso para esta etapa son pocos, no hay una interacción mu
 Entonces, en esta sección fue necesaria una interrelación de 3 diagramas para lograr modelar la acción de votar en una mesa. Y ahroa pasaremos a los detalles de caso de uso apra comprender aún más sobre este proceso.
 
 
-\textbf{Caso de Uso: }
 
-\textbf{Actores:} 
+\textbf{Caso de uso: 2.1 - Verificando hash mediante pendrive}
 
-\textbf{Pre:} 
+\textbf{Actor:} Fiscal General
+\textbf{Pre:} Es el día de las elecciones y el fiscal general posee el pendrive verificador.
 
-\textbf{Post:}
+\textbf{Post:} El hash se verifica y es correcto.
+
 \begin{table}[h!]
 	
  \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
  \hline
  \textbf{Curso normal} & \textbf{Curso Alternativo} \\
  \hline
+	
 
- \end{tabular}
+1. El fiscal general se acerca a una máquina de sufragio e inserta el pendrive verificador en la misma. & \\
+ \hline
+2. Se ejecuta automáticamente el software dentro del pendrive, que busca el ejecutable en ejecución.& \\
 
+
+3. El software del pendrive calcula el hash del ejecutable encontrado y lo compara con el hash esperado. & \\
+\hline
+
+4. Si coincide el hash, se quita el pendrive y el fiscal deja la máquina para que se siga votando normalmente. &
+4.1. Si hash calculado no coindice con el esperado, se muestra en pantalla un mensaje de error. Ir a fin del caso de uso. \\
+\hline
+5. Fin de CU. & \\
+\hline
+\end{tabular}
 \end{table}
 
+\textbf{Caso de uso: 2.2 - Votando}
+\textbf{Actor:} Elector, Presidente de Mesa
+\textbf{Pre:} Es el día de las elecciones y la máquina de sufragio ya fue iniciada en modo votación.
+\textbf{Post:} El elector imprimió su voto en una boleta.
 
-\subsubsection{OCL}
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+1. Si el elector no necesita de asistencia por sonido para votar, ir al 6. & \\
+\hline
+
+2. El presidente de mesa acerca al elector a la máquina, inserta una boleta vacía en la máquina e inserta los auriculares en la máquina, la cual detecta los mismos y empieza a dictar los candidatos al elector. & \\
+\hline
+
+3. Por cada categoría, el elector escucha todos los candidatos, más la opción de votar en blanco. Cuando escucha la opción que desea elegir, toca cualquier lugar en la pantalla. & \\
+\hline
+
+4. Una vez finalizadas todas las categorías, se le dicta la elección al elector. Se le pregunta también si desea imprimir su voto. & \\
+\hline
+
+5. Si decide por “No”, ir a 3. Si decide por sí, ir al paso 7. & \\
+\hline
+
+6. Si el elector no necesita de asistencia, vota de acuerdo a lo mostrado en la sección “Votar” del Diagrama de Actividad. & \\
+\hline
+
+7. Una vez finalizada la elección, se imprime el voto en la boleta. Se carga la información en el chip, y se imprime en tinta una tabla donde se especifica qué candidato se votó para cada categoría. & \\
+\hline
+
+8. La máquina le recomienda al lector verificar su voto utilizando el lector. Si decide hacerlo, se extiende con el CU 2.3 - Verificando voto impreso en la boleta. & \\
+\hline
+
+9. Fin de CU. & \\
+\hline
+
+\end{tabular}
+\end{table}
+\textbf{Caso de uso: 2.3 - Verificando voto impreso en la boleta}
+
+\textbf{Actor:} Elector
+
+\textbf{Pre:} Es el día de las elecciones y acaba de votar.
+
+\textbf{Post:} El elector confirma que su boleta indica que votó lo que le eligió.
+
+\begin{table}[h!]
+	
+ \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
+ \hline
+ \textbf{Curso normal} & \textbf{Curso Alternativo} \\
+ \hline
+ 1. El elector primero verifica que la boleta tenga imprenta en tinta la información correcta. & \\
+\hline
+
+2. Si es así, acerca la boleta al lector de la máquina de sufragio, apoyando la parte con el chip. De esta forma, verifica que lo mostrado en pantalla sea su elección. & \\
+\hline
+
+3. Si es así, el elector dobla la boleta asegurándose que la parte impresa en tinta no quede visible. & \\
+\hline
+
+4. Fin de CU. & \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{Conteo}
 
@@ -644,7 +850,7 @@ Este modelo representa el proceso de conteo de una mesa. PAra modelizarlo realme
 
 \begin{figure}[h!]
 \centering
-%\includegraphics[scale=0.5]{imagenes/actividad/actividadConteo1}
+\includegraphics[scale=0.5]{imagenes/CU/casosdeusoconteo}
 %\captionof{figure}{Diagrama de actividad}
 \end{figure}			
 
@@ -829,7 +1035,7 @@ A continuación presentaremos los detalles de casos de uso, estos sirven para pr
 
 
 
-\ŧextbf{Caso de uso: 3.6 - Iniciando modo envío}
+\textbf{Caso de uso: 3.6 Iniciando modo envio}
 
 \textbf{Actor:} Fiscal general
 
