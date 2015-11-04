@@ -76,6 +76,17 @@ forAll(car | car.Candidatos \rightarrow \\
 forAll(can_1 | self.BoletaConConteo.Candidatos \rightarrow \\
 Exists(can_2| can_1.nombre == can_2.nombre $ AND $car.descripcion==can_2.cargo.descripcion)))$
 
+\item \textbf{\textcolor{red}{El hash del código es el mismo del hash del código fuente. }  }
+\item \textbf{\textcolor{red}{El hash del código es el mismo del hash de todos los pendrives de los fiscales.}}
+
+
+\item \textbf{Si alg\'un elector vot\'o, debe haber votado el presidente mesa antes.}
+
+$self.Electores \rightarrow \\
+Exists (e | e.dni <> self.PresidenteDeMesaEnFuncion.dni $ AND $e.voto==yavoto)$ IMPLIES $\\
+self.Electores \rightarrow select(v | v.dni==self.PresidenteDeMesaEnFuncion.dni) \rightarrow \\
+forAll(p | p.voto==yavoto)$
+
 \end{enumerate}
 
 \subsubsection*{Boleta}
@@ -103,7 +114,7 @@ self.PosicionadaEn.numero == self.Elector.VotaEn.numero$
 $self.IsKindOf(BoletaConVotoGrabado)? $  IMPLIES  $\\
 self.Urna.PosicionadaEn.numero == self.Elector.VotaEn.numero$
 
-\item \textcolor{red}{Los votos de las boletas son de candidatos de la eleccion q vota el elector. Aclarar en el informe que esto hace q los votos contabilizados en la boleta de conteo tambien son de la misma eleccion ya q las boletas entre si son consistentes y no hace falta aclararlo extra por ocl}
+\item \textcolor{red}{Los votos de las boletas son de candidatos de la eleccion q vota el elector. PONERLE A LA CLASE ELECCION UNA FECHA. Aclarar en el informe que esto hace q los votos contabilizados en la boleta de conteo tambien son de la misma eleccion ya q las boletas entre si son consistentes y no hace falta aclararlo extra por ocl}
 
 \end{enumerate}
 
@@ -141,9 +152,12 @@ inv}
 \begin{enumerate}
 \item \textbf{No tiene dos candidatos con el mismo cargo.}
 
-$self.Candidatos  \rightarrow forAll(c_1, c_2 | )$
+$self.Candidatos  \rightarrow forAll(c_1, c_2 | c_1.cargo.descripcion <> c_2.cargo.descripcion)$
 
 \item \textbf{No tiene dos candidatos con el mismo nombre.}
+
+$self.Candidatos  \rightarrow forAll(c_1, c_2 | c_1.nombre <> c_2.nombre)$
+
 \end{enumerate}
 
 \subsubsection*{Urna}
@@ -152,9 +166,14 @@ $self.Candidatos  \rightarrow forAll(c_1, c_2 | )$
 inv}
 
 \begin{enumerate}
-\item \textbf{Las boletas con voto grabado de la urna son sólo de votantes de la mesa que figura la urna.}
+
 \item \textbf{En una misma urna no hay dos boletas con el mismo elector.}    
+
+$self.Contiene \rightarrow forAll(b_1, b_2 | b_1.Elector.dni<>b_2.Elector.dni)$
+
 \item \textbf{Los id de las urnas son únicos.}
+
+$Urna.AllInstances() \rightarrow forAll(u_1, u_2|u_1.id<>u_2.id)$
 \end{enumerate}
 
 \subsubsection*{Escuela}
@@ -163,9 +182,10 @@ inv}
 inv}
 
 \begin{enumerate}
-\item \textbf{Los id de las mesas son únicos.}
-\item \textbf{No puede haber un fiscal general y un fiscal con el mismo dni.}
-\item \textbf{No puede haber un fiscal general y un presidente de mesa con el mismo dni.}
+\item \textbf{Los n\'umeros de las mesas son únicos.}
+
+$Mesa.AllInstances() \rightarrow forAll(m_1, m_2|m_1.numero<>m_2.numero)$
+
 \end{enumerate}
 
 \subsubsection*{M\'aquina Impresora de Voto}
@@ -174,7 +194,7 @@ inv}
 inv}
 
 \begin{enumerate}
-\item \textbf{Los candidatos de todas las máquinas son los mismos.}
+\item \textbf{\textcolor{red}{Los candidatos de las m\'aquinas corresponden a los candidatos de la elecci\'on de la mesa en que est\'an posicionadas.}}
 
 \end{enumerate}
 
@@ -185,11 +205,33 @@ inv}
 
 \begin{enumerate}
 \item \textbf{Los dni de los electores son únicos.}
-\item \textbf{El elector puede no tener ninguna boleta, tener una vacía o tener una con voto.}
-\item \textbf{No puede haber un elector y una persona que no figura en el padrón con el mismo dni.}
+
+$Elector.AllInstances() \rightarrow forAll(e_1, e_2 | e_1.dni <> e_2.dni)$
+
 \item \textbf{Si el elector no llegó, está esperando o no lo dejaron votar no tiene boleta.}
-\item \textbf{Si el elector está votando tiene una boleta en blanco.}
-\item \textbf{Si el elector ya votó tiene una boleta con voto grabado.}
+
+$self.voto==nollego $ OR $self.voto==yavoto$ OR $self.voto==votoImpedido$ IMPLIES $\\
+self.Boleta \rightarrow Size() ==0$
+
+ AND 
+ 
+$self.Boleta \rightarrow Size() ==0$ IMPLIES $\\
+self.voto==nollego $ OR $self.voto==yavoto$ OR $self.voto==votoImpedido$
+
+\item \textbf{Si el elector está votando, tiene una boleta en blanco.}
+
+$self.Boleta \rightarrow Size() ==1$ IMPLIES $\\
+(self.Boleta.IsKindOf?(BoletaEnBlanco)$ IMPLIES $self.voto==votando$ AND
+
+$self.voto==votando$ IMPLIES $self.Boleta.IsKindOf?(BoletaEnBlanco))$
+
+\item \textbf{Si el elector ya votó, tiene una boleta con voto grabado.}
+
+$self.Boleta \rightarrow Size() ==1$ IMPLIES $\\
+(self.Boleta.IsKindOf?(BoletaConVotoGrabado)$ IMPLIES $self.voto==yavoto$ AND
+
+$self.voto==yavoto$ IMPLIES $self.Boleta.IsKindOf?(BoletaConVotoGrabado))$
+
 \end{enumerate}
 
 \subsubsection*{Partido Pol\'itico}
@@ -198,7 +240,13 @@ inv}
 inv}
 
 \begin{enumerate}
-\item \textbf{No hay dos partidos políticos con ningún candidato en común.}
+\item \textbf{No hay dos partidos políticos con algún candidato en común.}
+
+$PartidoPolitico.AllInstances() \rightarrow \\
+forAll(p_1, p_2 | p_1.candidatos \rightarrow \\
+forAll(c_1 | p_2.candidatos \rightarrow \\
+forAll(c_2 | c_1.nombre <> c_2.nombre)))$
+
 \end{enumerate}
 
 \subsubsection*{Centro de C\'omputos}
@@ -208,17 +256,10 @@ inv}
 
 \begin{enumerate}
 \item \textbf{Hay uno solo.}
+
+$CentroDeComputos.AllInstances() \rightarrow size()==1$
 \end{enumerate}
 
-\subsubsection*{C\'odigo}
-
-\textit{context C\'odigo
-inv}
-
-\begin{enumerate}
-\item \textbf{El hash del código es el mismo del hash del código fuente. }  
-\item \textbf{El hash del código es el mismo del hash de todos los pendrives de los fiscales.}   
-\end{enumerate}  
 
 \subsubsection*{Ministerio}
 
@@ -227,6 +268,9 @@ inv}
 
 \begin{enumerate}
 \item \textbf{Hay un solo ministerio.}
+
+$Ministerio.AllInstances() \rightarrow size()==1$
+
 \end{enumerate}
 
 \subsubsection*{Presidente de Mesa}
@@ -235,10 +279,21 @@ inv}
 inv}
 
 \begin{enumerate}
-\item \textbf{Si el presidente de mesa del ministerio está presente, no hay presidente ad hoc.}
-\item \textbf{Si la mesa tiene un solo presidente de mesa, tiene que ser el de Ministerio.}
-\item \textbf{Si hay dos presidentes, el del ministerio debe estar ausente.}
-\item \textbf{Si alguien voto, debe haber votado el presidente mesa antes (El Ad hoc si la mesa tiene dos presidentes, o el del ministerio si tiene uno solo).}
+
+
+\item \textbf{No puede haber un fiscal general y un fiscal con el mismo dni.}
+
+$Fiscal.AllInstances \rightarrow \\
+ forAll(f | FiscalGeneral.AllInstances \rightarrow forAll(fg | fg.dni <f.dni>))$
+
+\item \textbf{No puede haber un fiscal general y un presidente de mesa con el mismo dni.}
+
+$PresidenteDeMesaDesignado.AllInstances \rightarrow \\
+ forAll(pd | FiscalGeneral.AllInstances \rightarrow forAll(f_1 | f_1.dni <pd.dni>)) \\ $
+ AND $\\
+ PresidenteDeMesaEnFuncion.AllInstances \rightarrow \\
+ forAll(pf | FiscalGeneral.AllInstances \rightarrow forAll(f_2 | f_2.dni <pf.dni>))$
+ 
 \end{enumerate}
 
 \subsubsection*{Candidato}
@@ -247,5 +302,8 @@ inv}
 inv}
 
 \begin{enumerate}
-\item \textbf{Los id de los candidatos son únicos.}
+\item \textbf{Los nombres de los candidatos son únicos.}
+
+$Candidato.AllInstances() \rightarrow forAll(c_1, c_2 | c_1.nombre <>c_2.nombre)$
+
 \end{enumerate}
