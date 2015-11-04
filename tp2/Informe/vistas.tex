@@ -47,14 +47,13 @@ Ya presentados el diagrama de contexto y el de clases podemos pasar a analizar p
 \subsubsection{Diagrama de actividad}
 
 \todo[inline]{PONER EN SU LUGAR LOS DIAGRAMAS DE ACTIVIDAD}
+
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{imagenes/actividad/actividadPreparacion1}
 %\captionof{figure}{Diagrama de actividad}
 \end{figure}
-<<<<<<< HEAD
 \todo[inline]{Aca va el diagrama de actividad (ojo con la escala)}
-=======
 
 \begin{figure}[h!]
 \centering
@@ -65,7 +64,14 @@ Ya presentados el diagrama de contexto y el de clases podemos pasar a analizar p
 \centering
 \includegraphics[scale=0.5]{imagenes/actividad/actividadPreparacion3}
 \end{figure}
->>>>>>> ac9061ee9a2071afc042464a0c4c7ba3e049e030
+
+
+Lo primero que se puede notar en el diagrama de actividad, es la división en 2 partes de esta sección. Por un lado, tenemos la verificación del código y la carga del padrón. Luego, pasamos a la carga de candidatos y asignaciòn de escuelas. Seguido de la asignaciòn de presidentes de mesa. Fionalmente se prepara todo para el día de la elección. Es importante notar como especificamos anteriormente que el voto del presidente de mesa es parte de esta instancia. 
+
+Todas etapas tienen limites temporales definidos en relación a la elección, para modelarlos utilizaremos máquinas de estado finitas.
+
+Finalmente en este diagramo definimos la acciòn de votar, si bien es algo de la etapa siguiente y hablaremos más de ella posteriormente, al definir el voto del presidente de mesa como el ultimo paso del proceso de preparaciòn fue necesario definirlo aquí.
+
 
 \subsubsection{Máquina de estado finito}
 
@@ -85,7 +91,7 @@ Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los
 %\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
 \end{figure}
 
-
+A su vez, nos resultó interesante modelizar la selección aleatoria de presidentes de mesa utilizando FSM. Ya que deja bien en claro que solo se puede elegir uno.
 
 \subsubsection{Casos de uso}
 
@@ -540,7 +546,11 @@ Curso alternativo
 
 \subsection{Sufragio}
 
-\subsubsection{Máquina de estado finito}
+La sección de sufragio, es una etapa donde se repite muchas veces un caso de uso. El de \textbf{Votar}, ya que todos los electores hacen lo mismo. Para modelizar este momento son necesarias distintas cotas temporales y una manera de componer esta acción muchas veces.
+
+
+
+
 
 \subsubsection{Diagrama de actividad}
 \todo[inline]{PONER EN SU LUGAR LOS DIAGRAMAS DE ACTIVIDAD}
@@ -555,16 +565,53 @@ Curso alternativo
 \includegraphics[scale=0.5]{imagenes/actividad/actividadSufragio2}
 \end{figure}
 
+El diagrama de actividad nos da una primera visión del proceso de votación, vemos la interrelación entre los distintos agentes de una mesa y el elector. A su vez, comenzamos a ver la importancia de nuestro sistema en todo este esquema. Sin embargo, el diagrama de actividad no logra modelar bien la idea de una cola para votar con prioridad para discapacitados. Ni la posibilidad de muchos votantes. Por eso decidimos usar máquinas de estado finitas para modelar estos importantisimos conceptos a la hora de modelizar la votación.
+
+\subsubsection{Máquina de estado finito}
+
+La idea aquí fue utilizar dos FSM, para modelizar que solo puede votar una persona a la vez y los horarios.
 
 \begin{figure}[H]
 \centering
 %\includegraphics[scale=0.45]{}
-%\captionof{figure}{Diagrama de actividad}
+%\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
 \end{figure}
-\todo[inline]{Aca va el diagrama de actividad (ojo ocn la escala)}
 
+La idea de esta máquina fue modelizar los siguientes conceptos:
+\begin{itemize}
+\item Solo un votante puede ocupar la máquina de sufragio correspondiente a su mesa al mismo tiempo (no hay dos usando la máquina en simultáneo).
+\item El presidente de dicha mesa no puede atender a dos votantes en simultáneo.
+\item Los votantes son llamados según el orden de llegada.
+\item Los votantes discapacitados tienen prioridad.
+
+\end{itemize}
+
+Es importante notar que esto vale para los agentes de una mesa determinada en una escuela. Es decir que la composición de estas máquinas será de n electores por cada mesa de cada escuela.
+
+\begin{figure}[H]
+\centering
+%\includegraphics[scale=0.45]{}
+%\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
+\end{figure}
+
+Esta FSM modela:
+\begin{itemize}
+\item El horario durante el que transcurre el sufragio es entre las 8 y las 18 hs.
+\item El presidente de mesa/Fiscal General/fiscal deben esperar a que abran y cierren la escuela.
+\item El presidente de mesa vota primero
+
+\end{itemize}
 
 \subsubsection{Casos de uso}
+
+Veamos el diagram de casos de uso:
+
+\todo[inline]{ACA VA DIAGRAMA DE CASOS DE USO}
+
+
+Vemos que los casos de uso para esta etapa son pocos, no hay una interacción muy grande con el sistema a nivel de 1 agente. Pero es importante notar que como vimos anteriormente son casos de uso que haran TODOS los electores, por lo tanto se usaran en grandes cantidades el caso de uso \textbf{votando}, que como vimos es una instancia compleja.
+
+Entonces, en esta sección fue necesaria una interrelación de 3 diagramas para lograr modelar la acción de votar en una mesa. Y ahroa pasaremos a los detalles de caso de uso apra comprender aún más sobre este proceso.
 
 
 \textbf{Caso de Uso: }
@@ -590,7 +637,7 @@ Curso alternativo
 
 \subsection{Conteo}
 
-\subsubsection{Máquina de estado finito}
+Llegamos, a la ultima sección. Ya terminada la elección es necesario ver comom contar los votos. Aquí el sistema toma un rol muy importante. A su vez tenemos algunos actores importantescomo el presidente de mesa y los fiscales uqe se entremezclan con el conteo automático.
 
 \subsubsection{Diagrama de actividad}
 \todo[inline]{PONER EN SU LUGAR LOS DIAGRAMAS DE ACTIVIDAD}
@@ -598,7 +645,7 @@ Curso alternativo
 \centering
 \includegraphics[scale=0.5]{imagenes/actividad/actividadConteo1}
 %\captionof{figure}{Diagrama de actividad}
-\end{figure}
+\end{figure}			
 
 \begin{figure}[h!]
 \centering
@@ -606,12 +653,8 @@ Curso alternativo
 \end{figure}
 
 
-\begin{figure}[H]
-\centering
-%\includegraphics[scale=0.45]{}
-%\captionof{figure}{Diagrama de actividad}
-\end{figure}
-\todo[inline]{Aca va el diagrama de actividad (ojo ocn la escala)}
+\subsubsection{Máquina de estado finito}
+
 
 \subsubsection{Casos de uso}
 
