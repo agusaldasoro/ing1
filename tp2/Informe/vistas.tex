@@ -57,7 +57,7 @@ Ya presentados el diagrama de contexto y el de clases podemos pasar a analizar p
 %\captionof{figure}{Diagrama de actividad}
 \end{figure}
 \todo[inline]{Aca va el diagrama de actividad (ojo con la escala)}
-
+\newpage
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{imagenes/actividad/actividadPreparacion2}
@@ -78,19 +78,30 @@ Finalmente en este diagramo definimos la acciòn de votar, si bien es algo de la
 
 \subsubsection{Máquina de estado finito}
 
-Para esta sección fu necesario construir 2 máquinas de estado.
+Para esta sección fue necesario construir 2 máquinas de estado.
 
 \begin{figure}[h!]
 \centering
-%\includegraphics[scale=0.45]{}
+\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Fechaslimite1}
 %\captionof{figure}{Máquina de fechas limite}
 \end{figure}
 
-Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los tiempos de los casos de uso presentados anteriormente. Es importante notar que las transiciones marcadas en esta FSM corresponden a las acciones mostradas en el diagrama de actividad con el mismo nombre.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Fechaslimite2}
+%\captionof{figure}{Máquina de fechas limite}
+\end{figure}
 
 \begin{figure}[h!]
 \centering
-%\includegraphics[scale=0.45]{}
+\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Fechaslimite3}
+%\captionof{figure}{Máquina de fechas limite}
+\end{figure}
+Estas máquina de estado nos definen los tiempos de la etapa, es decir enmarca los tiempos de los casos de uso presentados anteriormente. Es importante notar que las transiciones marcadas en esta FSM corresponden a las acciones mostradas en el diagrama de actividad con el mismo nombre.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Eleccionaleatoria}
 %\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
 \end{figure}
 
@@ -670,9 +681,16 @@ El diagrama de actividad nos da una primera visión del proceso de votación, ve
 
 La idea aquí fue utilizar dos FSM, para modelizar que solo puede votar una persona a la vez y los horarios.
 
-\begin{figure}[H]
+\begin{figure}[h!]
 \centering
-%\includegraphics[scale=0.45]{}
+\includegraphics[scale=0.45]{imagenes/FSMs/Sufragio/Unvotantealavez1}
+%\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/FSMs/Sufragio/Unvotantealavez2}
 %\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
 \end{figure}
 
@@ -686,10 +704,10 @@ La idea de esta máquina fue modelizar los siguientes conceptos:
 \end{itemize}
 
 Es importante notar que esto vale para los agentes de una mesa determinada en una escuela. Es decir que la composición de estas máquinas será de n electores por cada mesa de cada escuela.
-
-\begin{figure}[H]
+\newpage
+\begin{figure}[h!]
 \centering
-%\includegraphics[scale=0.45]{}
+\includegraphics[scale=0.45]{imagenes/FSMs/Sufragio/Horariodesufragio}
 %\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
 \end{figure}
 
@@ -822,13 +840,12 @@ Entonces, en esta sección fue necesaria una interrelación de 3 diagramas para 
 Llegamos, a la ultima sección. Ya terminada la elección es necesario ver comom contar los votos. Aquí el sistema toma un rol muy importante. A su vez tenemos algunos actores importantescomo el presidente de mesa y los fiscales que se entremezclan con el conteo automático.
 
 \subsubsection{Diagrama de actividad}
-\todo[inline]{PONER EN SU LUGAR LOS DIAGRAMAS DE ACTIVIDAD}
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{imagenes/actividad/actividadConteo1}
 %\captionof{figure}{Diagrama de actividad}
 \end{figure}			
-
+\newpage
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{imagenes/actividad/actividadConteo2}
@@ -840,10 +857,21 @@ Aquí vemos como hay dos grandes acciones en esta etapa, por un lado poder audit
 
 \begin{figure}[h!]
 \centering
-%\includegraphics[scale=0.5]{imagenes/actividad/actividadConteo1}
+\includegraphics[scale=0.5]{imagenes/FSMs/Conteo/Conteodevotosdeunamesa3}
 %\captionof{figure}{Diagrama de actividad}
 \end{figure}			
 
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{imagenes/FSMs/Conteo/Conteodevotosdeunamesa2}
+%\captionof{figure}{Diagrama de actividad}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{imagenes/FSMs/Conteo/Conteodevotosdeunamesa3}
+%\captionof{figure}{Diagrama de actividad}
+\end{figure}			
 Este modelo representa el proceso de conteo de una mesa. PAra modelizarlo realmente, es necesario hacer la composición de estos tres modelos. Es importante notar que Finaliza conteo representa todo la etapa de impresión y entrega de los datos mediante modo envio, ya que esto es una acción unica que se ve mucho mejor tanto en casos de uso como el diagrama de actividad no fue tomada en cuenta para este modelo y se comprimio en esa unica etiqueta.
 
 \subsubsection{Casos de uso}
