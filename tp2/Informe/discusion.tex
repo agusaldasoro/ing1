@@ -1,2 +1,22 @@
 \section{Discusi\'on}
 - Discusión: debe contener un análisis general de lo que los llevó a elegir una técnica respecto a otra. NO DEBE SER una lista de lo que ya se puede desprender del diagrama. Esta sección también es ideal para que vuelquen las cosas que puedan haberles quedado "flojas" o no cerradas del todo: por ejemplo, los aspectos que podrían hacer que todo el sistema no funcione como desean, etc.
+
+Presentaremos a continuación distintos criterios que si bien fueron comentados anteriormente, es importante remarcarlos luego de vistos en partes y algunos puntos que podrian ser evaluados para un futuro análisis
+
+\subsection{Diagrama de actividad vs FSM}
+
+Es fácil ver que estos dos diagramas pueden modelizar muchas cosas equivalentes. Pero cada uno presenta ciertas ventajas frente al otro.
+Por ejemplo, a la hora de modelizar un problema con cotas temporales, el diagrama de actividad no es lo suficientemente expresivo. Esto lleva a que las cosas no queden claras y genera confusiones. En cambio el FSM nos permite muy fácilmente gracias al uso de relojes representar cotas temporales en nuestros problemas.
+
+A su vez, las FSM no dan un orden a las acciones, si bien podemos modelar que un actor espera la acción de otro actor para proceder, no es tan expresivo como en el diagrama de actividad donde la acción de cada actor se lleva de manera lineal, vemos perfectamente como es el orden relativo de estas acciones sin necesidad de componer nada, ni de imaginarnos como seria el modelo final de la composición.
+
+Por eso es que utilizamos estos dos diagramas de manera paralela, permite la mejor comprensión del escenario en el que nos encontramos y de los casos de uso.
+
+\subsection{Casos de uso: Refinamiento de acciones}
+
+Podriamos decir que los casos de uso hacen de \textit{refinamiento} de los diagramas antes mencionados. A la hora de implementar este sistema, sera necesario una descripción más profunda de las acciones relacionadas con el sistema, es por eso que utilizamos el diagrama de casos de uso y sus detalles, nos da un panorama bastante preciso sobre cada acción en la interfaz. 
+
+\subsection{Falta de o-refinamientos}
+
+En el trabajo anterior presentamos algunas posibilidades en relación a como lograr algunos objetivos. En este trabajo esa segundas opciones no fueron tomadas en cuenta. Podría haberse estirado el largo de este trabajo haciendo diagramas para estas distintas opciones pero no lo consideramos interesante. 
+
