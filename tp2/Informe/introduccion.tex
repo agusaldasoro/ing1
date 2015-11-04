@@ -5,7 +5,7 @@ En el presente trabajo se aborda la tem\'atica del \emph{proceso electoral}. El 
 
 \subsection{Preparación}
 
-En la etapa de preparación, el Ministerio provee un listado con los datos personales de todo el padrón, y lo carga en el sistema, permitiendo así la exposición de los datos a través de la interfaz web. De esta manera, un elector podrá consultar el padrón, y de no figurar en él, se dirigirá al ministerio, donde el sistema le permitirá al ministerio ingresar nuevos votantes  (hasta determinada fecha límite) asignándoles una mesa válida. 
+En la etapa de preparación, el Ministerio provee un listado con los datos personales de todo el padrón y el c\'odigo fuente del sistema, y los carga en el mismo, permitiendo así la exposición de los datos a través de la interfaz web. De esta manera, un elector podrá consultar el padrón, y de no figurar en él, se dirigirá al ministerio, donde el sistema le permitirá al ministerio ingresar nuevos votantes  (hasta determinada fecha límite) asignándoles una mesa válida. 
 
 A su vez, electores, fiscales generales y partidos políticos, podrán revisar el código fuente, el cual fue subido a la interfaz web, para ver que no haya ninguna irregularidad en el mismo.\\
 
@@ -13,7 +13,7 @@ Pasada dicha fecha, el ministerio suministra la información sobre las escuelas 
 
 Dado que el ministerio precisa conocer a los presidentes de mesa designados, el sistema permite consultar quienes son los mismos, de manera que el Ministerio pueda comunicarse con ellos. En caso de que algún notificado no pudiera estar presente (con justificación válida), el sistema permitirá al Ministerio elegir uno nuevo. Quedará a cargo del Ministerio, la capacitación de los mismos.\\
 
-Posteriormente, los partidos políticos presentan sus candidatos al Ministerio (hasta determinada fecha límite). Pasada la misma, el Ministerio carga esta información en la versión Web para que esté disponible a consultar y el equipo técnico del mismo graba la información en las máquinas impresoras de voto. En este momento, también, asigna una máquina impresora de voto a cada mesa, más dos extra por escuela (en caso de que suceda algún exabrupto), sumado a una máquina extra (que sólo será utilizada para el envío del conteo de votos) y un cable de conexión de teléfono. Cada máquina posee una batería que dura 3 hs sin estar conectada a alimentación eléctrica. 
+Posteriormente, los partidos políticos presentan sus candidatos al Ministerio (hasta determinada fecha límite). Pasada la misma, el Ministerio carga esta información en la versión Web para que esté disponible a consultar y graba la información en las máquinas impresoras de voto. En este momento, también, asigna una máquina impresora de voto a cada mesa, más dos extra por escuela (en caso de que suceda algún exabrupto), sumado a una máquina extra (que sólo será utilizada para el envío del conteo de votos) y un cable de conexión de teléfono. Cada máquina posee una batería que dura 3 hs sin estar conectada a alimentación eléctrica. 
 
 El sistema proveerá una contraseña única para todas las máquinas, la cual permite acceder al “Modo envío”, y adem\'as una contraseña única por cada Fiscal General de escuela, quienes ser\'an utilizadas en el momento de cargar los resultados de la elección, lo que permitir\'a el env\'io de datos encriptados mediante RSA.\\
 
@@ -34,7 +34,6 @@ A partir de ese momento, cualquier votante habilitado que llegue a su mesa podr�
 
 \subsection{Sufragio}
 
-
 Llega un votante a la mesa. En caso de tener alguna discapacidad, tiene prioridad en la cola. 
 
 Si el votante lo necesitase, podrá requerir ayuda y/o auriculares al presidente de mesa quien se deberá contactar con el Fiscal General con el fin de conseguir los auriculares. Para personas que posean problemas de movilidad, se les permitirá imprimir su voto en máquinas ubicadas en planta baja, mientras que el presidente de mesa les acercará la urna, para que pueda depositar su boleta al finalizar el sufragio. Sólo usará la máquina impresora de voto de la misma, mientras que es responsabilidad del presidente de mesa acercar la urna para que su voto sea contabilizado en la mesa que le corresponde por el padrón.
@@ -45,18 +44,18 @@ En ambos casos, cuando es su turno, el votante le entrega su DNI al presidente d
 Si el votante pasa la verificación, el presidente de mesa procede a entregarle la boleta y le retiene el DNI. A la boleta entregada, le quita un troquel que posee el código identificatorio, dejándola con el otro código idéntico en la boleta.
 Luego, el votante se acerca la máquina impresora de voto e inserta la boleta.\\
 
-Entonces, el sistema de la máquina muestra por pantalla las opciones de votar: por categoría o votar lista completa. Para ambos casos, se presentan las opciones (se incluye también la de voto en blanco) en posiciones aleatorias en la pantalla.
+Entonces, el sistema de la máquina muestra por pantalla las opciones de votar: por categoría o votar lista completa. Para ambos casos, se presentan las opciones (se incluye también la de voto en blanco) en posiciones aleatorias en la pantalla. En caso del uso de los auriculares para personas no videntes, el sistema le leer\'a las opciones y el votante podr\'a seleccionar sus opciones tocando en cualquier lugar de la pantalla al escuchar que mencionan a su candidato.
 
 El votante podrá entonces elegir entre las opciones y al finalizar, obtener la boleta con su voto impreso (tanto en el papel como en el chip). El votante puede verificar en la máquina que lo impreso en el chip sea correcto.\\
 
-Luego, el votante quita el troquel restante a la boleta, se lo entrega al presidente de mesa y si coincide con el retirado previamente, puede pasar a depositar la boleta en la urna siempre y cuando no haya cantado cuál será su voto. Si el votante canta su voto, la boleta quedará anulada impidiéndole ingresarla en la urna. 
+Luego, el votante quita el troquel restante a la boleta, se lo entrega al presidente de mesa y si coincide con el retirado previamente, puede pasar a depositar la boleta en la urna siempre y cuando no haya cantado cuál será su voto. Si el votante canta su voto, la boleta quedará anulada impidiéndole ingresarla en la urna. Si el votante es el presidente de mesa, no verificar\'a su troquel.
 
 Si el votante se arrepiente, puede pedir otra boleta y repetir el proceso.
 Finalmente, el presidente de mesa le hace firmar al votante el padrón, y le devuelve el DNI conjunto a la constancia de voto.\\
 
 En el caso de que falle alguna máquina, se pueden reemplazar por las dos de repuesto que posee cada escuela las cuales estarán a cargo del fiscal general. Si en una escuela dejan de funcionar más de dos máquinas, se podrá compartir la maquina de sufragio entre mesas, pero cada boleta deberá ser depositada en la urna correspondiente.\\
 
-El fiscal general puede, en todo momento, utilizar el pendrive suministrado por el Ministerio, para chequear que el código que se ejecuta en cada máquina, es el correcto (acorde a lo explicado en la secci\'on anterior).\\
+El fiscal general puede, en todo momento, utilizar el pendrive suministrado por el Ministerio, para chequear que el código que se ejecuta en cada máquina, es el correcto (acorde a lo explicado en la secci\'on anterior). En el caso de que el hash no sea correcto, se considera que la m\'aquina est\'a averiada.\\
 
 Pasadas las 18hs, las fuerzas de seguridad cierran las puertas de las escuelas. Y una vez terminados los comicios, empieza el conteo.\\
 
