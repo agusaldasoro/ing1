@@ -96,20 +96,22 @@ Finalmente en este diagramo definimos la acciòn de votar, si bien es algo de la
 
 Para esta sección fue necesario construir 2 máquinas de estado.
 
-%\begin{figure}[h!]
-%\centering
-%\includegraphics[scale=0.45]{}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Fechaslimite1}
 %\captionof{figure}{Máquina de fechas limite}
-%\end{figure}
+\end{figure}
 
-Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los tiempos de los casos de uso presentados anteriormente. Es importante notar que las transiciones marcadas en esta FSM corresponden a las acciones mostradas en el diagrama de actividad con el mismo nombre.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Fechaslimite2}
+\end{figure}
 
-%\begin{figure}[h!]
-%\centering
-%\includegraphics[scale=0.45]{}
-%\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
-%\end{figure}
-
+Estas máquina de estado nos definen los tiempos de la etapa, es decir enmarca los tiempos de los casos de uso presentados anteriormente. Es importante notar que las transiciones marcadas en esta FSM corresponden a las acciones mostradas en el diagrama de actividad con el mismo nombre.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Eleccionaleatoria}
+\end{figure}
 A su vez, nos resultó interesante modelizar la selección aleatoria de presidentes de mesa utilizando FSM. Ya que deja bien en claro que solo se puede elegir uno.
 
 \newpage
@@ -700,11 +702,16 @@ El diagrama de actividad nos da una primera visión del proceso de votación, ve
 
 La idea aquí fue utilizar dos FSM, para modelizar que solo puede votar una persona a la vez y los horarios.
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[scale=0.45]{}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/FSMs/Sufragio/Unvotantealavez1}
 %\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
-%\end{figure}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/FSMs/Sufragio/Unvotantealavez2}
+\end{figure} 
 
 La idea de esta máquina fue modelizar los siguientes conceptos:
 \begin{itemize}
@@ -717,11 +724,11 @@ La idea de esta máquina fue modelizar los siguientes conceptos:
 
 Es importante notar que esto vale para los agentes de una mesa determinada en una escuela. Es decir que la composición de estas máquinas será de n electores por cada mesa de cada escuela.
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[scale=0.45]{}
-%\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
-%\end{figure}
+-\newpage
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.45]{imagenes/FSMs/Sufragio/Horariodesufragio}
+\end{figure}
 
 Esta FSM modela:
 \begin{itemize}
@@ -877,12 +884,22 @@ Aquí vemos como hay dos grandes acciones en esta etapa, por un lado poder audit
 
 \subsubsection{Máquina de estado finito}
 
-%\begin{figure}[h!]
-%\centering
-%\includegraphics[scale=0.5]{imagenes/actividad/actividadConteo1}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{imagenes/FSMs/Conteo/Conteodevotosdeunamesa1}
 %\captionof{figure}{Diagrama de actividad}
-%\end{figure}			
-
+\end{figure}			
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{imagenes/FSMs/Conteo/Conteodevotosdeunamesa2}
+%\captionof{figure}{Diagrama de actividad}
+\end{figure}
+\newpage			
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{imagenes/FSMs/Conteo/Conteodevotosdeunamesa3}
+%\captionof{figure}{Diagrama de actividad}
+\end{figure}			
 Este modelo representa el proceso de conteo de una mesa. PAra modelizarlo realmente, es necesario hacer la composición de estos tres modelos. Es importante notar que Finaliza conteo representa todo la etapa de impresión y entrega de los datos mediante modo envio, ya que esto es una acción unica que se ve mucho mejor tanto en casos de uso como el diagrama de actividad no fue tomada en cuenta para este modelo y se comprimio en esa unica etiqueta.
 
 
