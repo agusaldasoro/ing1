@@ -1,11 +1,13 @@
 \section{Vistas}
 
-Pasaremos a ahora a presentar los distintos diagramas para continuar modelizando nuestro problema.
+Pasaremos a ahora a presentar los distintos diagramas para continuar modelizando nuestro problema.\\
 
-En una primera instancia presentaremos el diagrama de clases, si bien presentamos el diagrama no estará acompañado de sus predicados de OCL, estos se presentaran posteriormente en la vista de las distintas etapas. 
+
+En una primera instancia presentaremos el diagrama de clases, acompañado de sus predicados de OCL. 
+
 Como dijimos anteriormente, presentaremos nuestra solución dividiendola en 3 etapas: Preparación, sufragio y conteo. 
 
-Contamos con 5 tipos de diagramas, analizemos un poco las ventajas y desventajas de cada uno antes de comenzar.
+Contamos con 5 tipos de diagramas, analicemos un poco las ventajas y desventajas de cada uno antes de comenzar.
 
 \paragraph{Diagrama de contexto} 
 
@@ -27,37 +29,49 @@ El diagrama de actividad pone un orden relativo en los casos de uso. Y los relac
 
 \paragraph{Máquinas de estado finitas}
 
-La máquina de estados permite la composición entre varios actores con el mismo comportamiento y a su vez nos permite dar un orden temporal de los eventos. 
+La máquina de estados permite la composición entre varios actores con el mismo comportamiento y a su vez nos permite dar un orden temporal de los eventos. \\
 
 
 Presentaremos primero el diagra de contexto y el diagrama de clases.
 
-\subsection{Diagrama de Contexto}
-\todo[inline]{Aca va el diagrama de contexto}
 
 \newpage
-\subsection{Diagrama de Clases}
+\subsection{Diagrama de Contexto}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.36]{imagenes/contexto1}
+%\captionof{figure}{Diagrama de actividad}
+\end{figure}
+
+\newpage
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.28]{imagenes/contexto2}
+%\captionof{figure}{Diagrama de actividad}
+\end{figure}
+
+\newpage
 \input{modeloConceptual.tex}
 
 \newpage
 
-Ya presentados el diagrama de contexto y el de clases podemos pasar a analizar para cada una de las etapas presentadas en la introducción mediante los distintos diagramas ya presentados.
-
 \subsection{Preparación}
 
+Ya presentados el diagrama de contexto y el de clases podemos pasar a analizar para cada una de las etapas presentadas en la introducción mediante los distintos diagramas ya presentados.
 
 \subsubsection{Diagrama de actividad}
 
-\todo[inline]{PONER EN SU LUGAR LOS DIAGRAMAS DE ACTIVIDAD}
 
-\newpage
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{imagenes/actividad/actividadPreparacion1}
 %\captionof{figure}{Diagrama de actividad}
 \end{figure}
-\todo[inline]{Aca va el diagrama de actividad (ojo con la escala)}
+
 \newpage
+
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{imagenes/actividad/actividadPreparacion2}
@@ -65,9 +79,10 @@ Ya presentados el diagrama de contexto y el de clases podemos pasar a analizar p
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.5]{imagenes/actividad/actividadPreparacion3}
+\includegraphics[scale=0.45]{imagenes/actividad/actividadPreparacion3}
 \end{figure}
 
+\newpage
 
 Lo primero que se puede notar en el diagrama de actividad, es la división en 2 partes de esta sección. Por un lado, tenemos la verificación del código y la carga del padrón. Luego, pasamos a la carga de candidatos y asignaciòn de escuelas. Seguido de la asignaciòn de presidentes de mesa. Fionalmente se prepara todo para el día de la elección. Es importante notar como especificamos anteriormente que el voto del presidente de mesa es parte de esta instancia. 
 
@@ -76,37 +91,28 @@ Todas etapas tienen limites temporales definidos en relación a la elección, pa
 Finalmente en este diagramo definimos la acciòn de votar, si bien es algo de la etapa siguiente y hablaremos más de ella posteriormente, al definir el voto del presidente de mesa como el ultimo paso del proceso de preparaciòn fue necesario definirlo aquí.
 
 
+\newpage
 \subsubsection{Máquina de estado finito}
 
 Para esta sección fue necesario construir 2 máquinas de estado.
 
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Fechaslimite1}
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[scale=0.45]{}
 %\captionof{figure}{Máquina de fechas limite}
-\end{figure}
+%\end{figure}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Fechaslimite2}
-%\captionof{figure}{Máquina de fechas limite}
-\end{figure}
+Esta máquina de estado nos define los tiempos de la etapa, es decir enmarca los tiempos de los casos de uso presentados anteriormente. Es importante notar que las transiciones marcadas en esta FSM corresponden a las acciones mostradas en el diagrama de actividad con el mismo nombre.
 
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Fechaslimite3}
-%\captionof{figure}{Máquina de fechas limite}
-\end{figure}
-Estas máquina de estado nos definen los tiempos de la etapa, es decir enmarca los tiempos de los casos de uso presentados anteriormente. Es importante notar que las transiciones marcadas en esta FSM corresponden a las acciones mostradas en el diagrama de actividad con el mismo nombre.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.45]{imagenes/FSMs/Preparacion/Eleccionaleatoria}
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[scale=0.45]{}
 %\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
-\end{figure}
+%\end{figure}
 
 A su vez, nos resultó interesante modelizar la selección aleatoria de presidentes de mesa utilizando FSM. Ya que deja bien en claro que solo se puede elegir uno.
 
+\newpage
 \subsubsection{Casos de uso}
 
 Veamos primero el diagrama de casos de uso y luego veremos el detalle de los distintos casos de uso.
@@ -121,9 +127,13 @@ Es importante notar que el detalle de casos de uso, nos interioriza mucho en muc
 %\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
 \end{figure}
 
+
+
 Al ver el diagrama, se nota algo interesante. Muchos agentes distintos terminan teniendo los mismos casos de uso que el elector. Si bien anteriormente tuvimos que distinguirlos y fue importante hacerlo, por sus interacciones esternas al sistema, cuando interactuan con el sistema son lo mismo que un elector.
 
-Nos muestra también la importancia del diagrama de contexto para identificar agentes que quizas no interactuen con el sistema pero son escenciales a la construcción del mis.
+Nos muestra también la importancia del diagrama de contexto para identificar agentes que quizas no interactuen con el sistema pero son escenciales a la construcción del mismo.
+
+\newpage
 
 \textbf{1.1 Caso de Uso: Autenticandose}
 
@@ -159,9 +169,13 @@ Nos muestra también la importancia del diagrama de contexto para identificar ag
 
 
 \textbf{1.2 Caso de uso: Cargando padrón}
+
 \textbf{Actor}: Ministerio
+
 \textbf{Pre}: El ministerio se encuentra autenticado en el sistema, el padrón no fue cargado, y todavía no pasó la fecha límite para modificaciones al padrón.
+
 \textbf{Post}: El padrón se encuentra cargado en el sistema y puede ser consultado desde la web.
+
 \begin{table}[h!]
 	
  \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
@@ -176,13 +190,10 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 2.1. Si ocurre un error durante la importación, mostrar mensaje de error e ir al fin del caso de uso. \\
 \hline
 3. Fin de CU. & \\
-
+\hline
  \end{tabular}
 
 \end{table}
-
-
-
 
 
 \textbf{1.3 Caso de Uso: Ingresando nuevo votante}
@@ -213,7 +224,9 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 
 \end{table}
 
-\textbf{Caso de uso: Cargando información sobre escuelas}
+\newpage
+
+\textbf{1.4 Caso de uso: Cargando información sobre escuelas}
 
 \textbf{Actor:} Ministerio
 
@@ -255,10 +268,6 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \end{table}
 
 
-
-
-
-
 \textbf{1.5 Caso de Uso: Consultando presidentes de mesa}
 
 \textbf{Actores:} Ministerio 
@@ -290,6 +299,9 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \textbf{Pre:} El ministerio se encuentra autenticado en el sistema, las mesas y los presidentes de mesa se encuentran publicados, y un presidente de mesa envió una notificación explicando que no puede estar presente. La notificación se envió llamando a la línea gratuita del ministerio.
 
 \textbf{Post:} Se asigna un nuevo presidente a una mesa.
+
+\newpage
+
 \begin{table}[h!]
 	
  \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
@@ -377,6 +389,8 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 
 \textbf{Post:} El código fuente se encuentra cargado en la web para ser consultado. 
 
+\newpage
+
 \begin{table}[h!]
 	
  \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
@@ -404,7 +418,6 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 
 \textbf{Pre:} El ministerio se encuentra autenticado en el sistema y el código fuente se encuentra publicado.
 \textbf{Post:} El ministerio conoce las notificaciones de error sobre el código fuente.
-
 
 \begin{table}[h!]
 	
@@ -502,6 +515,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 
 \end{table}
 
+\newpage
 
 \textbf{1.13Caso de Uso:  Consultando padrón}
 
@@ -510,6 +524,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \textbf{Pre:} El padrón se encuentra publicado en la web. 
 
 \textbf{Post:}  El elector conoce si se encuentra en el padrón.
+
 
 \begin{table}[h!]
 	
@@ -549,7 +564,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 
 	
 
-\textbf{Caso de Uso: Consultando candidatos}
+\textbf{1.14 Caso de Uso: Consultando candidatos}
 
 \textbf{Actores:} Elector 
 
@@ -622,6 +637,7 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 
 \end{table}
 
+\newpage
 
 \textbf{1.16 Caso de Uso: Notificando error en código fuente}
 
@@ -630,6 +646,8 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \textbf{Pre:} El código fuente se encuentra publicado en la web, el elector se encuentra en el sistema web y ya consultó el código previamente.
 
 \textbf{Post:} En el sistema ahora existe una nueva denuncia del código fuente.
+
+
 \begin{table}[h!]
 	
  \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
@@ -653,17 +671,14 @@ El archivo importado es de formato .csv, con las siguientes columnas: Nombres, A
 \end{table}
 
 
+\newpage
 
 \subsection{Sufragio}
 
 La sección de sufragio, es una etapa donde se repite muchas veces un caso de uso. El de \textbf{Votar}, ya que todos los electores hacen lo mismo. Para modelizar este momento son necesarias distintas cotas temporales y una manera de componer esta acción muchas veces.
 
-
-
-
-
 \subsubsection{Diagrama de actividad}
-\todo[inline]{PONER EN SU LUGAR LOS DIAGRAMAS DE ACTIVIDAD}
+
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{imagenes/actividad/actividadSufragio1}
@@ -675,24 +690,21 @@ La sección de sufragio, es una etapa donde se repite muchas veces un caso de us
 \includegraphics[scale=0.5]{imagenes/actividad/actividadSufragio2}
 \end{figure}
 
+\newpage
+
 El diagrama de actividad nos da una primera visión del proceso de votación, vemos la interrelación entre los distintos agentes de una mesa y el elector. A su vez, comenzamos a ver la importancia de nuestro sistema en todo este esquema. Sin embargo, el diagrama de actividad no logra modelar bien la idea de una cola para votar con prioridad para discapacitados. Ni la posibilidad de muchos votantes. Por eso decidimos usar máquinas de estado finitas para modelar estos importantisimos conceptos a la hora de modelizar la votación.
 
+
+\newpage
 \subsubsection{Máquina de estado finito}
 
 La idea aquí fue utilizar dos FSM, para modelizar que solo puede votar una persona a la vez y los horarios.
 
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.45]{imagenes/FSMs/Sufragio/Unvotantealavez1}
+%\begin{figure}[H]
+%\centering
+%\includegraphics[scale=0.45]{}
 %\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
-\end{figure}
-
-
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.45]{imagenes/FSMs/Sufragio/Unvotantealavez2}
-%\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
-\end{figure}
+%\end{figure}
 
 La idea de esta máquina fue modelizar los siguientes conceptos:
 \begin{itemize}
@@ -704,12 +716,12 @@ La idea de esta máquina fue modelizar los siguientes conceptos:
 \end{itemize}
 
 Es importante notar que esto vale para los agentes de una mesa determinada en una escuela. Es decir que la composición de estas máquinas será de n electores por cada mesa de cada escuela.
-\newpage
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.45]{imagenes/FSMs/Sufragio/Horariodesufragio}
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[scale=0.45]{}
 %\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
-\end{figure}
+%\end{figure}
 
 Esta FSM modela:
 \begin{itemize}
@@ -719,22 +731,21 @@ Esta FSM modela:
 
 \end{itemize}
 
+\newpage
+
 \subsubsection{Casos de uso}
 
-Veamos el diagram de casos de uso:
-
 \begin{figure}[h!]
-\centering
-\includegraphics[scale=0.45]{imagenes/CU/casosdeusosufragio}
-%\captionof{figure}{Máquina de elección aleatoria de presidente de mesa}
+  \begin{center}
+    \includegraphics[scale=0.45]{imagenes/CU/casosdeusosufragio.png}
+  \end{center}
 \end{figure}
-
 
 Vemos que los casos de uso para esta etapa son pocos, no hay una interacción muy grande con el sistema a nivel de 1 agente. Pero es importante notar que como vimos anteriormente son casos de uso que haran TODOS los electores, por lo tanto se usaran en grandes cantidades el caso de uso \textbf{votando}, que como vimos es una instancia compleja.
 
 Entonces, en esta sección fue necesaria una interrelación de 3 diagramas para lograr modelar la acción de votar en una mesa. Y ahroa pasaremos a los detalles de caso de uso apra comprender aún más sobre este proceso.
 
-
+\newpage
 
 \textbf{Caso de uso: 2.1 - Verificando hash mediante pendrive}
 
@@ -768,9 +779,14 @@ Entonces, en esta sección fue necesaria una interrelación de 3 diagramas para 
 \end{table}
 
 \textbf{Caso de uso: 2.2 - Votando}
+
 \textbf{Actor:} Elector, Presidente de Mesa
+
 \textbf{Pre:} Es el día de las elecciones y la máquina de sufragio ya fue iniciada en modo votación.
+
 \textbf{Post:} El elector imprimió su voto en una boleta.
+
+\newpage
 
 \begin{table}[h!]
 	
@@ -835,44 +851,42 @@ Entonces, en esta sección fue necesaria una interrelación de 3 diagramas para 
 \end{tabular}
 \end{table}
 
+\newpage
+
 \subsection{Conteo}
 
 Llegamos, a la ultima sección. Ya terminada la elección es necesario ver comom contar los votos. Aquí el sistema toma un rol muy importante. A su vez tenemos algunos actores importantescomo el presidente de mesa y los fiscales que se entremezclan con el conteo automático.
 
 \subsubsection{Diagrama de actividad}
+
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.5]{imagenes/actividad/actividadConteo1}
+\includegraphics[scale=0.45]{imagenes/actividad/actividadConteo1}
 %\captionof{figure}{Diagrama de actividad}
 \end{figure}			
-\newpage
+
+
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.5]{imagenes/actividad/actividadConteo2}
+\includegraphics[scale=0.45]{imagenes/actividad/actividadConteo2}
 \end{figure}
 
-Aquí vemos como hay dos grandes acciones en esta etapa, por un lado poder auditar la máquina para ver que esta sucediendo, por otro lado el conteo. Una vez más el diagrama de actividad nos permite dar una forma de lo hechos pero no nos permite definar del todo como funciona el conteo ni la auditoria del mismo, para esto usaremos FSM de manera a darla más forma.
+Aquí vemos como hay dos grandes acciones en esta etapa, por un lado poder auditar la máquina para ver qu\'e est\'a sucediendo, por otro lado el conteo. Una vez más el diagrama de actividad nos permite dar una forma de lo hechos pero no nos permite definar del todo como funciona el conteo ni la auditoria del mismo, para esto usaremos FSM de manera a darla más forma.
+
+\newpage
 
 \subsubsection{Máquina de estado finito}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.5]{imagenes/FSMs/Conteo/Conteodevotosdeunamesa3}
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[scale=0.5]{imagenes/actividad/actividadConteo1}
 %\captionof{figure}{Diagrama de actividad}
-\end{figure}			
+%\end{figure}			
 
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.5]{imagenes/FSMs/Conteo/Conteodevotosdeunamesa2}
-%\captionof{figure}{Diagrama de actividad}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.5]{imagenes/FSMs/Conteo/Conteodevotosdeunamesa3}
-%\captionof{figure}{Diagrama de actividad}
-\end{figure}			
 Este modelo representa el proceso de conteo de una mesa. PAra modelizarlo realmente, es necesario hacer la composición de estos tres modelos. Es importante notar que Finaliza conteo representa todo la etapa de impresión y entrega de los datos mediante modo envio, ya que esto es una acción unica que se ve mucho mejor tanto en casos de uso como el diagrama de actividad no fue tomada en cuenta para este modelo y se comprimio en esa unica etiqueta.
+
+
+\newpage
 
 \subsubsection{Casos de uso}
 
@@ -883,25 +897,6 @@ Este modelo representa el proceso de conteo de una mesa. PAra modelizarlo realme
 \end{figure}			
 
 A continuación presentaremos los detalles de casos de uso, estos sirven para profundizar el proceso de conteo y de fiscalización.
-
-\textbf{Caso de Uso: }
-
-\textbf{Actores:} 
-
-\textbf{Pre:} 
-
-\textbf{Post:}
-\begin{table}[h!]
-	
- \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
- \hline
- \textbf{Curso normal} & \textbf{Curso Alternativo} \\
- \hline
-
- \end{tabular}
-
-\end{table}
-
 
 
 \textbf{Caso de uso: 3.1 - Activando modo conteo}
@@ -944,7 +939,11 @@ A continuación presentaremos los detalles de casos de uso, estos sirven para pr
 \textbf{Actor:} Presidente de mesa
 
 \textbf{Pre:} Es el día de las elecciones y la máquina de sufragio se encuentra en modo conteo.
+
 \textbf{Post:} La máquina de sufragio suma un voto más, algún candidato en cada categoría.
+
+\newpage
+
 \begin{table}[h!]
 	
  \begin{tabular}{|p{7.5cm} | p{7.5cm}|} 
@@ -1091,7 +1090,7 @@ A continuación presentaremos los detalles de casos de uso, estos sirven para pr
 4.1. Si la contraseña no es correcta, se vuelve al paso 3. \\
 \hline
 5. Fin de CU. \\
-
+\hline
 \end{tabular}
 \end{table}
 
@@ -1122,8 +1121,12 @@ A continuación presentaremos los detalles de casos de uso, estos sirven para pr
 \end{tabular}
 \end{table}
 
+
 \textbf{Caso de uso: 3.8 - Verificando hash mediante pendrive}
+
+
 Es el mismo CU explicado en la etapa previa, el 2.1 - Verificando hash mediante pendrive
+
 
 \textbf{Caso de uso: 3.9 - Enviando datos al CdC}
 
@@ -1131,7 +1134,9 @@ Es el mismo CU explicado en la etapa previa, el 2.1 - Verificando hash mediante 
 
 \textbf{Pre:} Es el día de las elecciones y se cargaron todas las boletas de mesa.
 
-Post: Se envió la información total de la escuela al CdC y ahora se encuentra guardada en el sistema.
+\textbf{Post:} Se envió la información total de la escuela al CdC y ahora se encuentra guardada en el sistema.
+
+\newpage
 
 \begin{table}[h!]
 	

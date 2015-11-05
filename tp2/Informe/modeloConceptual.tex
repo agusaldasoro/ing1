@@ -1,14 +1,26 @@
-\subsection{Modelo Conceptual}
+\subsection{Diagrama de Clases}
 
-\begin{figure}
+En el siguiente diagrama se ve reflejado que una mesa se relaciona con dos presidentes de mesa, pudiendo ser o no la misma clase. Esto se debe a que el presidente de mesa que es designado por el Ministerio posee el libre albedr\'io de no presentarse. Sin embargo, este podr\'a ir a votar y mientras no llegue primero entre los electores ser\'a considerado como un elector m\'as.\\
+
+
+Por cada Presidente, existe otra entidad distinta Elector, la cual indica si dicho presidente vot\'o o no, as\'i como tambi\'en la informaci\'on pertinente de un elector.\\
+
+Un elector puede tener una boleta en blanco, una boleta con voto grabado o ninguna bolea. En el caso de que haya impreso una boleta, se arrepienta y pida otra(s), se considerar\'a a la boleta con voto grabado como a la \'unica boleta insertada en la urna. Por lo que al modelo no le importan las boletas impresas descartadas.\\
+
+El modelo plantea que es correcto cuando los hash de los c\'odigos coinciden, tanto con el c\'odigo original como el que est\'a en las m\'aquinas y en los pendrives. Es responsabilidad de los fiscales y presidentes corroborar y mantener que esto sea as\'i.\\
+
+
+\newpage
+
+\begin{figure}[h!]
   \begin{center}
-	%\includegraphics[scale=0.64]{imagenes/clases.png}
+	\includegraphics[scale=0.60]{imagenes/clases.png}
   \end{center}
 \end{figure}
 
 \newpage
-\subsubsection{OCL}
 
+\subsubsection{OCL}
 
 \subsubsection*{Mesa}
 
@@ -18,11 +30,11 @@ inv}
 
 \item \textbf{Los n\'umeros de las mesas son únicos.}
 
-$Mesa.AllInstances \rightarrow forAll(m_1, m_2 | m_1.numero <> m_2.numero))$
+$Mesa.AllInstances \rightarrow forAll(m_1, m_2 | m_1.numero <> m_2.numero)$
 
 \item  \textbf{No hay dos mesas con el mismo fiscal.}
 
-$Mesa.AllInstances \rightarrow forAll(m_1, m_2 | m_1.Fiscal.dni <> m_2.Fiscal.dni))$
+$Mesa.AllInstances \rightarrow forAll(m_1, m_2 | m_1.Fiscal.dni <> m_2.Fiscal.dni)$
 
 \item \textbf{No hay dos mesas con electores en común.}
 
@@ -33,11 +45,23 @@ $Mesa.AllInstances \rightarrow \\
 \item \textbf{No hay dos mesas con el mismo presidente de mesa.}
 
 $Mesa.AllInstances \rightarrow \\
-forAll(m_1, m_2 | m_1.PresidenteDeMesaDesignado.dni <> m_2.PresidenteDeMesaDesignado.dni))$
+forAll(m_1, m_2 | m_1.PresidenteDeMesaDesignado.dni <> m_2.PresidenteDeMesaDesignado.dni $ AND $ 
+m_1.PresidenteDeMesaDesignado.dni <> m_2.PresidenteDeMesaEnFuncion.dni ) \\ $
+ AND $\\
+ Mesa.AllInstances \rightarrow \\
+forAll(m_1, m_2 | m_1.PresidenteDeMesaEnFuncion.dni <> m_2.PresidenteDeMesaDesignado.dni $ AND $ 
+m_1.PresidenteDeMesaEnFuncion.dni <> m_2.PresidenteDeMesaEnFuncion.dni ) $
+
+\item \textbf{No puede haber un fiscal y un presidente de mesa con el mismo dni.}
+
+$ Mesa.AllInstances \rightarrow forAll(m_1, m_2 | m_2.Fiscal \rightarrow Size() > 0 $ IMPLIES $  m2.Fiscal \rightarrow \\ 
+forAll( f | m_1.PresidenteDeMesaDesignado.dni<>f.dni $ AND $ m_1.PresidenteDeMesaEnFuncion.dni<>f.dni))$
 
 \item \textbf{Los presidentes de mesa votan en la misma mesa que son presidentes.}
 
-$self.Electores \rightarrow Exists(e | self.PresidenteDeMesaDesignado.dni == e.dni)$
+$self.Electores \rightarrow Exists(e | self.PresidenteDeMesaDesignado.dni == e.dni) \\ $
+ AND $ \\
+ self.Electores \rightarrow Exists(e | self.PresidenteDeMesaEnFuncion.dni == e.dni) $
 
 \item \textbf{La cantidad de Boletas Sin voto grabado y con voto grabado de la mesa debe ser mayor o igual a la cantidad de electores de dicha mesa.}
 
@@ -47,27 +71,29 @@ $self.Lote \rightarrow Size() + self.Urna.Contiene \rightarrow Size () \geq self
 
 $self.Urna.Contiene  \rightarrow  Size() \leq self.Electores \rightarrow Size()$
 
+\item \textbf{No hay dos personas votando a la vez en la misma mesa.}
+
+$self.Electores \rightarrow select( e | e.voto == votando) \rightarrow Size() \leq 1 $
+
 \item \textbf{Si la máquina está en modo votación es porque s\'olo un elector, o ninguno, está votando (No puede haber dos electores por mesa votando a la vez).}
 
 $self.Maquina.modo == votacion$  IMPLIES  $ \\
-self.Electores \rightarrow select(e | e.voto == votando) \rightarrow Size() \leq 1$
+self.Electores \rightarrow select(e | e.voto == votando) \rightarrow Size() \leq 1 \\ $
+ AND $ \\
+ self.Electores \rightarrow select(e | e.voto == votando) \rightarrow Size() \leq 1 $  IMPLIES  $ \\
+ self.Maquina.modo == votacion $
 
 \item \textbf{Si la máquina está en modo conteo es porque no hay ningún elector de la mesa votando o esperando para votar.}
 
 $self.Maquina.modo == votacion$  IMPLIES  $ \\
-self.Electores \rightarrow \\
-select(e | e.voto == votando$ OR $e.voto == esperando) \rightarrow Size() = 0$
+self.Electores \rightarrow select(e | e.voto == votando$ OR $e.voto == esperando) \rightarrow Size() = 0 \\ $
+ AND $ \\
+ self.Electores \rightarrow select(e | e.voto == votando$ OR $e.voto == esperando) \rightarrow Size() = 0 $  IMPLIES  $ \\
+self.Maquina.modo == votacion $
 
 \item \textbf{La máquina de la mesa puede estar en modo votación o conteo pero no en envio.}
 
 $self.Maquina.modo <> envio$
-
-\item \textbf{No puede haber un fiscal y un presidente de mesa con el mismo dni.}
-
-$self.Fiscales \rightarrow \\
-select(f | f.dni == self.PresidenteDeMesaEnFuncion.dni OR \\
-f.dni == self.PresidenteDeMesaDesignado.dni) \rightarrow \\
-Size() == 0 $
 
 \item \textbf{Todos los candidatos de la elecci\'on est\'an en la boleta de conteo de votos (incluyendo cuando la cantidad de votos recibida por el candidato en esa mesa fuese 0).}
 
@@ -76,9 +102,13 @@ forAll(car | car.Candidatos \rightarrow \\
 forAll(can_1 | self.BoletaConConteo.Candidatos \rightarrow \\
 Exists(can_2| can_1.nombre == can_2.nombre $ AND $car.descripcion==can_2.cargo.descripcion)))$
 
-\item \textbf{\textcolor{red}{El hash del código es el mismo del hash del código fuente. }  }
-\item \textbf{\textcolor{red}{El hash del código es el mismo del hash de todos los pendrives de los fiscales.}}
+\item \textbf{El hash del código de la M\'aquina es el mismo que el hash del código fuente del Ministerio. }
 
+$self.Maquina.Codigo.Hash == self.Escuela.Eleccion.Ministerio.CdC.CodigoOriginal.hash$
+
+\item \textbf{El hash del código del Ministerio es el mismo que hash de todos los pendrives de los fiscales.}
+
+$self.Escuela.FiscalGeneral.PenDrive.Hash == self.Escuela.Eleccion.Ministerio.CdC.CodigoOriginal.hash$
 
 \item \textbf{Si alg\'un elector vot\'o, debe haber votado el presidente mesa antes.}
 
@@ -87,6 +117,20 @@ Exists (e | e.dni <> self.PresidenteDeMesaEnFuncion.dni $ AND $e.voto==yavoto)$ 
 self.Electores \rightarrow select(v | v.dni==self.PresidenteDeMesaEnFuncion.dni) \rightarrow \\
 forAll(p | p.voto==yavoto)$
 
+\item \textbf{La elecci\'on a la que corresponde la mesa es la misma que la que le corresponde a su escuela.}
+
+$self.Electores \rightarrow forAll (e | e.UbicadoEn.AcargoDe.dia == self.Escuela.Eleccion.dia)$
+
+\item \textbf{Los electores est\'an en el padr\'on de la Elecci\'on que se est\'a llevando a cabo.}
+
+$self.Electores \rightarrow forAll(e | e.UbicadoEn.AcargoDe.dia == self.Escuela.Eleccion.dia)$
+
+\item \textbf{Los votos que figuran en las boletas de la urna son para candidatos y cargos de la elecci\'on que se est\'a llevando a cabo.}
+
+$self.Urna.Contiene \rightarrow forAll(b | \\
+b.voto.Candidatos \rightarrow forAll(can_1 | can_1.Cargo.Eleccion.dia  == self.Escuela.Eleccion.dia \\
+$ AND $ \\
+self.Escuela.Eleccion.cargos \rightarrow Select (car | car.descripcion == can_1.cargo.descripcion).Candidatos \rightarrow Exists(can_2 | can_1.nombre == can_2.nombre)))$
 \end{enumerate}
 
 \subsubsection*{Boleta}
@@ -113,8 +157,6 @@ self.PosicionadaEn.numero == self.Elector.VotaEn.numero$
 
 $self.IsKindOf(BoletaConVotoGrabado)? $  IMPLIES  $\\
 self.Urna.PosicionadaEn.numero == self.Elector.VotaEn.numero$
-
-\item \textcolor{red}{Los votos de las boletas son de candidatos de la eleccion q vota el elector. PONERLE A LA CLASE ELECCION UNA FECHA. Aclarar en el informe que esto hace q los votos contabilizados en la boleta de conteo tambien son de la misma eleccion ya q las boletas entre si son consistentes y no hace falta aclararlo extra por ocl}
 
 \end{enumerate}
 
@@ -194,7 +236,28 @@ $Mesa.AllInstances() \rightarrow forAll(m_1, m_2|m_1.numero<>m_2.numero)$
 inv}
 
 \begin{enumerate}
-\item \textbf{\textcolor{red}{Los candidatos de las m\'aquinas corresponden a los candidatos de la elecci\'on de la mesa en que est\'an posicionadas.}}
+\item \textbf{La elecci\'on que corresponde a la m\'aquina es la misma elecci\'on que le corresponde a su mesa.}
+
+$self.Posee \rightarrow forAll(can | can.cargo.Eleccion.dia == self.Escuela.Eleccion.dia)$
+
+\item \textbf{Los candidatos que figuran en la m\'aquina deben ser candidatos y cargos que correspondan a la misma elecci\'on de la escuela en la que est\'an ubicadas.}
+
+$self.Posee \rightarrow forAll(can_1 | self.Escuela.Eleccion.Cargos \rightarrow \\
+Exists(car | car.descripcion == can_1.cargo.descripcion $ AND $car.Candidatos \rightarrow Exists(can_2| can_1.nombre == can_2.nombre)))$
+
+\item \textbf{La m\'aquina est\'a en la misma escuela que la escuela de su mesa.}
+
+$self.CorrespondeA \rightarrow Size() > 0$ IMPLIES $ \\
+self.CorrespondeA \rightarrow forAll(m | m.Escuela.id == self.Escuela.id)$
+
+\item \textbf{Si la m\'aquina tiene mesa, deber\'a estar enchufada.}
+
+$self.CorrespondeA \rightarrow Size() > 0$ IMPLIES $ self.enchufada == TRUE$
+
+\item \textbf{Si la m\'aquina no tiene mesa y est\'a prendida, deber\'a estar en modo conteo.} 
+
+$self.CorrespondeA \rightarrow Size() == 0 $ AND $self.enchufada==TRUE$ IMPLIES $ \\
+self.modo==Conteo$
 
 \end{enumerate}
 
@@ -307,3 +370,22 @@ inv}
 $Candidato.AllInstances() \rightarrow forAll(c_1, c_2 | c_1.nombre <>c_2.nombre)$
 
 \end{enumerate}
+
+
+\subsubsection*{Elecci\'on}
+
+\textit{context Elecci\'on
+inv}
+
+\begin{enumerate}
+\item \textbf{Las fechas de las elecciones son \'unicas.}
+
+$Eleccion.AllInstances() \rightarrow forAll(e_1, e_2 | e_1.dia <>e_2.dia)$
+
+\item \textbf{Los cargos que se votan en una elecci\'on son \'unicos.}
+
+$self.Cargos \rightarrow forAll(c_1, c_2 |c_1.descripcion <> c_2.descripcion)$
+
+\end{enumerate}
+
+\newpage
